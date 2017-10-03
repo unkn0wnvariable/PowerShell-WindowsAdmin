@@ -1,5 +1,7 @@
 ﻿# Check if AD Computers are Online or Offline
+#
 
+# Add a search base to search within an OU if required
 $searchBase = ''
 
 If (!($searchBase)) {
