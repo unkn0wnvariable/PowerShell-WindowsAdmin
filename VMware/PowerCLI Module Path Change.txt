@@ -1,0 +1,14 @@
+At some point between me beginning to write scripts, and now, VMware have changed the folder name of the PowerCLI module from vSphere PowerCLI to just PowerCLI. This means some older scripts no longer work as they can't load the ps1 module.
+
+This can either be fixed by changing module path from:
+
+'C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+
+to:
+
+'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+
+
+Or by creating a smybolic link from the old location to the new one:
+
+mklink /D "C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI" "C:\Program Files (x86)\VMware\Infrastructure\PowerCLI"
