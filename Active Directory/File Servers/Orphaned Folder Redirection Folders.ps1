@@ -7,8 +7,8 @@
 
 # Set folder redirection location and AD group which contains the people who should be using it
 
-$folderRedirectionPath = '\\server.doman\FolderRedirections$'
-$folderRedirectionGroup = 'Folder Redirection Group'
+$folderRedirectionGroup = Read-Host -Prompt 'Enter the name of the folder redirection AD group'
+$folderRedirectionPath = Read-Host -Prompt 'Enter the path to the folder redirection share'
 
 # Set files to output lists to.
 
