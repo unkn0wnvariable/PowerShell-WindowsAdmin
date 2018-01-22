@@ -7,11 +7,9 @@ $outputfile = 'C:\Temp\VMware Guests.csv'
 
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 
-$allVMs = @()
-
 Connect-VIServer -Server $viServer
 
-$vms = Get-VM -Server $viServer.Name | Where {$_.PowerState -eq 'PoweredOn'} | Select VMHost,Name,Guest,ResourcePool,Notes
+$vms = Get-VM -Server $viServer.Name | Where-Object {$_.PowerState -eq 'PoweredOn'} | Select-Object VMHost,Name,Guest,ResourcePool,Notes
 
 Disconnect-VIServer -Confirm:$false -Server $viServer
 
