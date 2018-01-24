@@ -5,7 +5,13 @@ $failedRequestsLoggingDirectory = 'I:\Logs\FailedReqLogFiles'
 $oldLogFilesDirectory = 'C:\inetpub\logs'
 
 Import-Module WebAdministration
-foreach($site in (dir iis:\sites\*)) { Set-ItemProperty IIS:\Sites\$($site.Name) -name logFile.directory -value $logFileDirectory }
-foreach($site in (dir iis:\sites\*)) { Set-ItemProperty IIS:\Sites\$($site.Name) -name traceFailedRequestsLogging.directory -value $failedRequestsLoggingDirectory }
+
+$sites = Get-ChildItem -Path iis:\sites\*
+
+ForEach($site in $sites) {
+    Set-ItemProperty IIS:\Sites\$($site.Name) -name logFile.directory -value $logFileDirectory
+    Set-ItemProperty IIS:\Sites\$($site.Name) -name traceFailedRequestsLogging.directory -value $failedRequestsLoggingDirectory
+}
+
 IISReset
 Remove-Item $oldLogFilesDirectory -recurse

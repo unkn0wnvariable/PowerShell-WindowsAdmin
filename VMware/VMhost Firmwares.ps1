@@ -21,4 +21,5 @@ ForEach ($vmhost in $vmhosts) {
     $output = '"' + $vmhost.Name + '","' + $nicInfo.Driver + '","' + $nicInfo.FirmwareVersion + '"'
     Write-Output $output | Out-File $outputfile -Encoding utf8 -Force -Append
 }
+
 Disconnect-VIServer -Confirm:$false -Server $viServer

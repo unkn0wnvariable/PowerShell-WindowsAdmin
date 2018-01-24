@@ -2,7 +2,6 @@
 
 $BuiltinAdmins = ([ADSI]"LDAP://CN=Administrators,CN=Builtin,$domainDN").member
 
-$MemberGroups = @()
 $MemberUsers = @()
 
 ForEach ($Member in $BuiltinAdmins) {
@@ -16,4 +15,4 @@ ForEach ($Member in $BuiltinAdmins) {
 
 $MemberUsers.Count
 
-$MemberUsers | Sort -Unique
+$MemberUsers | Sort-Object -Unique

@@ -69,7 +69,7 @@ ForEach ($gpoReport in $gpoReports) {
 
                 # If the server is online, get the FQDN A record for it so we can identify aliases and the IP so we know where it is.
                 If ($serverOnline) {
-                    $serverDetails = (Resolve-DnsName -Name ($sharePath.Split('\')[2]) | Where {$_.QueryType -eq 'A'})
+                    $serverDetails = (Resolve-DnsName -Name ($sharePath.Split('\')[2]) | Where-Object {$_.QueryType -eq 'A'})
 
                     # If more than one A record found, use the hostname from the first entry and create a list of the IP's
                     If ($serverDetails.Count -gt 1) {

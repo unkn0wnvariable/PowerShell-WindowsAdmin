@@ -40,7 +40,7 @@ ForEach ($group in $groups) {
 
     # Get group details
     $groupDetails = Get-ADGroup -Identity $group -Properties Name,mail,whenCreated,whenChanged,Members
-    $groupMembers = $groupDetails.Members | %{$_.Split('=,')[1]}
+    $groupMembers = $groupDetails.Members | ForEach-Object{$_.Split('=,')[1]}
 
     # Build the object for the results and add it to the array
     $tableRow = New-Object System.Object
