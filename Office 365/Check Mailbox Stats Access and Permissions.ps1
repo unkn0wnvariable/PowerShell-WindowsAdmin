@@ -42,7 +42,7 @@ ForEach ($mailbox in $mailboxes) {
     # If mailboxStats is blank then mailbox doesn't exist, so that entry can be skipped. For all others get the mailbox permissions and build the output table.
     If ($mailboxStats -ne $null) {
         # Get permit permissions for users where the username has an @ in it, this filters out all the system permissions.
-        $usersWithAccess = (Get-MailboxPermission -Identity $mailbox | Where {($_.User -like '*@*') -and ($_.Deny -ne 'False')}).User -join '; '
+        $usersWithAccess = (Get-MailboxPermission -Identity $mailbox | Where-Object -Property {($_.User -like '*@*') -and ($_.Deny -ne 'False')}).User -join '; '
 
         $tableRow = New-Object System.Object
         $tableRow | Add-Member -MemberType NoteProperty -Name 'MailboxUPN' -Value $mailbox

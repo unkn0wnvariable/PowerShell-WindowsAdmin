@@ -19,13 +19,13 @@ $msolCorrectUPN = $adObject.UserPrincipalName
 Try {
     Get-MsolUser -UserPrincipalName $msolCorrectUPN -ErrorAction Stop
 
-    #Remove-MSOLuser -UserPrincipalName $msolIncorrectUPN
-    #Remove-MSOLuser -UserPrincipalName $msolIncorrectUPN -RemoveFromRecycleBin
+    Remove-MSOLuser -UserPrincipalName $msolIncorrectUPN
+    Remove-MSOLuser -UserPrincipalName $msolIncorrectUPN -RemoveFromRecycleBin
 
-    #$adGuid = $adObject.ObjectGuid
-    #$immutableID = [System.Convert]::ToBase64String($adGuid.ToByteArray())
+    $adGuid = $adObject.ObjectGuid
+    $immutableID = [System.Convert]::ToBase64String($adGuid.ToByteArray())
 
-    #Set-MSOLuser -UserPrincipalName $msolCorrectUPN -ImmutableID $immutableID
+    Set-MSOLuser -UserPrincipalName $msolCorrectUPN -ImmutableID $immutableID
 }
 Catch {
     Write-Host 'No account found in Azure AD matching the UPN for that AD account.'

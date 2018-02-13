@@ -1,4 +1,5 @@
 ﻿# Script to get details for a list of groups and save that out to a CSV file
+#
 
 # File containing the list of mailboxes
 $inputFile = "C:\Temp\GroupsList.txt"

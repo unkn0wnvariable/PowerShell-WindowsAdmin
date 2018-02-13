@@ -1,4 +1,5 @@
 ﻿# Script to find unlinked GPO's and remove them if we don't want them
+#
 
 # Import the GP module
 Import-Module GroupPolicy
@@ -21,7 +22,7 @@ ForEach ($gpo in $gpos) {
 # Output the results array to screen
 If ($unlinkedGPOs.Count -gt 0) {
     Write-Host 'The following unlinked GPOs have been found:'
-    $unlinkedGPOs | FT DisplayName,DomainName,Owner,CreationTime -AutoSize
+    $unlinkedGPOs | Format-Table -Property DisplayName,DomainName,Owner,CreationTime -AutoSize
 }
 Else {
     Write-Host 'No unlinked GPOs were found.'
