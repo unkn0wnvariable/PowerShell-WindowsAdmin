@@ -9,12 +9,12 @@
 # This is the default location for the PowerCLI script, it should be correct unless a custom install location was used.
 $powerCLIPath = 'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
 
-# Check the PowerCLI script exists and load it if it does, if not notify and terminate.
-If (Test-Path -Path $powerCLIPath) {
+# Try running the the PowerCLI script, if it fails then notify and terminate.
+Try {
     .$powerCLIPath
 }
-Else {
-    Write-Host -Object 'The PowerCLI Environment Initialization script was not found.'
+Catch {
+    Write-Host -Object 'Initialize PowerCLI Environment script not found. Is PowerCLI Installed?' -ForegroundColor Red
     Break
 }
 
@@ -36,6 +36,8 @@ $vmsToDelete = Get-Content -Path $vmsToDeleteFile
 # Connect to the VI server
 Connect-VIServer -Server $viServer
 
+$VM = 'test'
+
 # Check to see if each VM in the list is powered off, if it is then delete it.
 ForEach ($VM in $vmsToDelete) {
     $vmDetails = Get-VM -Name $VM
@@ -43,7 +45,7 @@ ForEach ($VM in $vmsToDelete) {
         Remove-VM -VM $VM -Server $viServer -DeletePermanently -RunAsync -Confirm:$false
     }
     Else {
-        Write-Host -Object ('VM ' + $VM + ' is not powered off.')
+        Write-Output -Object ('VM ' + $VM + ' is not powered off.')
     }
 }
 
