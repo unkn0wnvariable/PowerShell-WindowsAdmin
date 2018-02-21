@@ -60,9 +60,6 @@ $depotFile = "VMware-ESXi-6.0.0-Update3-5050593-HPE-600.9.7.0.17-Feb2017"
 
 # Load the PowerCLI modules
 
-Add-PSSnapin VMware.VimAutomation.Core -ea "SilentlyContinue"
-Add-PSSnapin VMware.VimAutomation.Vds -ea "SilentlyContinue"
-
 .'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
 
 

@@ -1,7 +1,4 @@
-﻿Add-PSSnapin VMware.VimAutomation.Core -ea "SilentlyContinue"
-Add-PSSnapin VMware.VimAutomation.Vds -ea "SilentlyContinue"
-
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+﻿.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
 
 $outputfile = 'C:\Temp\VMware Guests.csv'
 

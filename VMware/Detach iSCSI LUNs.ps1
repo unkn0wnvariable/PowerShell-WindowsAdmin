@@ -1,9 +1,6 @@
 # Script to detach a list of datastores and their underlying LUNs from all the hosts in vSphere
 
 # Load the stuff we need
-Add-PSSnapin VMware.VimAutomation.Core -ea "SilentlyContinue"
-Add-PSSnapin VMware.VimAutomation.Vds -ea "SilentlyContinue"
-
 .'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
 
 # Connect to the vSphere server
