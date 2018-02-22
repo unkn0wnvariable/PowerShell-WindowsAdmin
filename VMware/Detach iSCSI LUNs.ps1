@@ -1,4 +1,6 @@
 # Script to detach a list of datastores and their underlying LUNs from all the hosts in vSphere
+#
+# This script assumes the datastores have already had storage IO switched off and been unmounted in vSphere
 
 # Load the stuff we need
 .'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
@@ -29,7 +31,7 @@ Foreach($vmHost in $vmHosts)
         Write-Host "Detaching $lunUuid from $vmHost."
 
         # Open a connection to the VMware Storage System and detach the LUN from the host using the UUID
-        #$vmStorage = Get-View $vmHost.Extensiondata.ConfigManager.StorageSystem
-        #$vmStorage.DetachScsiLun($lunUuid)
+        $vmStorage = Get-View $vmHost.Extensiondata.ConfigManager.StorageSystem
+        $vmStorage.DetachScsiLun($lunUuid)
     }
 }
