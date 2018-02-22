@@ -15,10 +15,14 @@ If (!(Test-Path $inputFile)) {
 
 # Check output folder exists and create it if it doesn't
 $outputPath = (Split-Path -Path $outputFile)
-If (!(Test-Path -Path $outputPath)) {New-Item -Path $outputFolder -ItemType Directory}
+If (!(Test-Path -Path $outputPath)) {
+	New-Item -Path $outputFolder -ItemType Directory
+}
 
 # If output file already exists, delete it.
-If (Test-Path -Path $outputFile) {Remove-Item -Path $outputFile}
+If (Test-Path -Path $outputFile) {
+	Remove-Item -Path $outputFile
+}
 
 # Load AD module
 Import-Module ActiveDirectory
