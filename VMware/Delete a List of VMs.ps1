@@ -36,8 +36,6 @@ $vmsToDelete = Get-Content -Path $vmsToDeleteFile
 # Connect to the VI server
 Connect-VIServer -Server $viServer
 
-$VM = 'test'
-
 # Check to see if each VM in the list is powered off, if it is then delete it.
 ForEach ($VM in $vmsToDelete) {
     $vmDetails = Get-VM -Name $VM
