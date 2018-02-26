@@ -26,7 +26,6 @@ ForEach ($esxHost in (Get-VMHost -Server $viServer)) {
 # Lets see a list of those dumpfiles
 $dumpfiles | Select VMHost,Active,Configured | FT -AutoSize
 
-
 # Do you want to remove the dump files?
 $remove = ''
 While ($remove -notmatch '[Yy|Nn]') {
