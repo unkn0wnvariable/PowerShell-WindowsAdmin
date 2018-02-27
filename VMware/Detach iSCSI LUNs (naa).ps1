@@ -10,7 +10,7 @@ $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer
 
 # Get list of datastores to detach from file
-$datastoreNaas = Get-Content -Path "C:\Temp\DatastoresNaasToDetach.txt"
+$datastoreNaas = Get-Content -Path "C:\Temp\UmountedDatastoreNaas.txt"
 
 # Get all hosts attached to vSphere server
 $vmHosts = Get-VMHost

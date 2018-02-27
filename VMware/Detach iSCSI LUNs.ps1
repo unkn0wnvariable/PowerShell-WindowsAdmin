@@ -10,7 +10,7 @@ $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer
 
 # Get list of datastores to detach from file
-$datastoreNames = Get-Content -Path "C:\Temp\Datastores to Detach.txt"
+$datastoreNames = Get-Content -Path "C:\Temp\UmountedDatastoreNames.txt"
 
 # Get all hosts attached to vSphere server
 $vmHosts = Get-VMHost
@@ -35,3 +35,6 @@ Foreach($vmHost in $vmHosts)
         $vmStorage.DetachScsiLun($lunUuid)
     }
 }
+
+# Disconnect to the vSphere server
+Disconnect-VIServer -Server $viServer -Confirm:$false
