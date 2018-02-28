@@ -9,7 +9,7 @@ $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer
 
 # Get Datastores list from file
-$datastoresList = Get-Content -Path 'C:\Temp\MaintenanceDatastoreNames.txt'
+$datastoresList = Get-Content -Path 'C:\Temp\DatastoresToRemoveNames.txt'
 
 # Disable storeage IO on datastores
 Set-Datastore -Datastore $datastoresList -Server $viServer -StorageIOControlEnabled:$false -Confirm:$false

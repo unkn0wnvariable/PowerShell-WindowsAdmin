@@ -4,10 +4,8 @@
 # Initialise PowerCLI Environment
 .'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
 
-# Get- VIServer
-$viServer = Read-Host -Prompt 'Enter the FQDN of your VI server'
-
 # Connect vCenter
+$viServer = Read-Host -Prompt 'Enter the FQDN of your VI server'
 Connect-VIServer -Server $viServer
 
 # Get all dumpfile details and display them
