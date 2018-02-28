@@ -4,7 +4,10 @@
 # it is also much slower than using the GUI as it can only unmount from one host at a time, whereas the GUI
 # unmounts from all hosts in parallel.
 #
-# To ensure datastores are OK to remove, first use the Datastore Unmount Prep.ps1 script.
+# To take datastores out of maintenance mode, remove them from clusters and disable storage I/O control
+# use the Datastore Unmount Prep.ps1 script.
+#
+# To ensure datastores are OK to remove, first use the Datastore Unmount Checks.ps1 script.
 #
 
 # Load the stuff we need
