@@ -5,12 +5,15 @@
 # Load the stuff we need
 .'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
 
+#Get Admin Credentials
+$adminCreds = Get-Credential -Message 'Enter account details with admin rights to VMware'
+
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer
+Connect-VIServer -Server $viServer -Credential $adminCreds
 
 # Get list of datastores to detach from file
-$datastoreNaas = Get-Content -Path "C:\Temp\UmountedDatastoreNaas.txt"
+$datastoreNaas = Get-Content -Path "C:\Temp\iSCSIToRemoveNaas.txt"
 
 # Get all hosts attached to vSphere server
 $vmHosts = Get-VMHost
@@ -42,4 +45,4 @@ Foreach($vmHost in $vmHosts)
 }
 
 # Disconnect from the vSphere server
-Disconnect-VIServer -Server $viServer
+Disconnect-VIServer -Server $viServer -Confirm:$false

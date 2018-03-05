@@ -4,9 +4,12 @@
 # Load the stuff we need
 .'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
 
+#Get Admin Credentials
+$adminCreds = Get-Credential -Message 'Enter account details with admin rights to VMware'
+
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer
+Connect-VIServer -Server $viServer -Credential $adminCreds
 
 # Get Datastores in Maintenance Mode
 $maintenanceStores = Get-Datastore -Server $viServer | Where-Object {$_.State -eq 'Maintenance'} | Select-Object Name,@{N='CanonicalName';E={$_.ExtensionData.Info.Vmfs.Extent[0].DiskName}},CapacityGB,FreeSpaceGB,State
