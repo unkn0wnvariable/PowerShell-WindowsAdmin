@@ -1,14 +1,14 @@
 ﻿# Script to get details for a list of mailboxes and save that out to a CSV file
 
 # File containing the list of mailboxes
-$inputFile = "C:\Temp\MailboxList.txt"
+$inputFile = 'C:\Temp\MailboxList.txt'
 
 # File to save the results to
-$outputFile = "C:\Temp\SharedMailboxes.csv"
+$outputFile = 'C:\Temp\SharedMailboxes.csv'
 
 # Check input file exists, if not end the script.
 If (!(Test-Path $inputFile)) {
-    Write-Host "Input file does not exist."
+    Write-Host 'Input file does not exist.'
     Break
 }
 
@@ -33,7 +33,7 @@ $mailboxesTable = @()
 
 # Iterate through the mailboxes from the file and show a progress bar as we go.
 ForEach ($mailbox in $mailboxes) {
-    Write-Progress -Activity "Checking.." -status $mailbox -percentComplete ($mailboxes.IndexOf($mailbox) / $mailboxes.Count * 100)
+    Write-Progress -Activity 'Checking..' -status $mailbox -percentComplete ($mailboxes.IndexOf($mailbox) / $mailboxes.Count * 100)
 
     # Get the statistics for the mailbox.
     $mailboxStats = ''
