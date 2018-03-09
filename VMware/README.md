@@ -1,6 +1,6 @@
 # VMware PowerShell
 
-My attempts at making life with VMware that little more easier.
+My attempts at making life with VMware that little bit easier.
 
 ## Prerequisites
 
