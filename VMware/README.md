@@ -24,7 +24,7 @@ E.g.:
 
 With the release of PowerCLI v10 we are now able to import the required modules in the normal PowerShell way, e.g. `Import-Module -Name VMware.PowerCLI`, this means that the old PowerCLI initialization script no longer works and I have updated my scripts accordingly. Going forward I cannot guarantee or verify that these scripts will work in older versions of PowerCLI, even if the environment initialisation script is used first, so please use v10 or higher.
 
-In my scripts I'm actually using `Import-Module -Name VMware.PowerCLI -Force` to avoid load errors where the module has previously been imported.
+In my scripts I'm actually using `Import-Module -Name VMware.PowerCLI -Force` to make sure the correct module is loaded.
 
 ### Invalid Certificates
 
