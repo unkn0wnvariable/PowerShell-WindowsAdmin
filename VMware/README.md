@@ -16,7 +16,7 @@ E.g.:
 
 Install-Module -Name VMware.PowerCLI -Scope CurrentUser -AllowClobber
 
-### SSL Changes
+## SSL Changes
 
 PowerCLI 10 changes the default behaviour for untrusted certificates from warn to fail, this means you won't be able to connect if using self-signed certificates.
 
