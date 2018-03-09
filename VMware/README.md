@@ -2,6 +2,14 @@
 
 My attempts at making life with VMware that little bit easier.
 
+## PowerCLI v10 Compatability
+
+With the release of PowerCLI v10 we are now able to import the module for use in scripts in the normal PowerShell way, this however means that older scripts which used the PowerCLI initialization script won't work.
+
+I'm working on updating my scripts and will put a note at the start of each one which has been updated and checked.
+
+This obviously means I'll no longer be able to confirm if they work in older versions of PowerCLI, so please use v10.
+
 ## Prerequisites
 
 These scripts all require PowerCLI to be installed.
@@ -16,7 +24,7 @@ E.g.:
 
 Install-Module -Name VMware.PowerCLI -Scope CurrentUser -AllowClobber
 
-## SSL Changes
+## PowerCLI v10 SSL Changes
 
 PowerCLI 10 changes the default behaviour for untrusted certificates from warn to fail, this means you won't be able to connect if using self-signed certificates.
 
@@ -27,14 +35,6 @@ Set-PowerCLIConfiguration -InvalidCertificateAction Warn -Scope Session
 Or permanently using:
 
 Set-PowerCLIConfiguration -InvalidCertificateAction Warn
-
-## PowerCLI v10
-
-With the release of PowerCLI v10 we are now able to import the module for use in scripts in the normal PowerShell way, this however means that older scripts which used the PowerCLI initialization script won't work.
-
-I'm working on updating my scripts and will put a note at the start of each one which has been updated and checked.
-
-This obviously means I'll no longer be able to confirm if they work in older versions of PowerCLI, so please use v10.
 
 ## Pre v10 PowerCLI Path Change
 
