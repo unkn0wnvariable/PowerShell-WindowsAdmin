@@ -30,7 +30,7 @@ $dumpfiles | Select-Object VMHost,Active,Configured | Format-Table -AutoSize
 
 # Do you want to remove the dump files?
 $remove = ''
-While ($remove -notmatch '[Yy|Nn]') {
+While ($remove -notmatch '^[YyNn]$') {
     $remove = Read-Host -Prompt 'Do you want to remove the dump files? (Y/N)'
 }
 

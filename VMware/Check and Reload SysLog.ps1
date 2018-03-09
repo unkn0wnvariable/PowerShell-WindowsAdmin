@@ -1,4 +1,4 @@
-﻿# Get list of dump files from ESXi hosts, and remove them if required
+﻿# Check syslog is configured for the correct location and 
 #
 # Updated for PowerCLI 10
 #
@@ -32,10 +32,18 @@ ForEach ($esxHost in $esxHosts) {
     Write-Host -Object ('Create subdirectory: ' + $logSettings.LogToUniqueSubdirectory)
 }
 
-# Iterate through the hosts reloading syslog
-ForEach ($esxHost in $esxHosts) { 
-    $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
-    $esxCli.system.syslog.reload.Invoke()
+# Do you want to reload?
+$reloadOK = ''
+While ($reloadOK -notmatch '^[NnYy]$') {
+    $reloadOK = Read-Host -Prompt 'Do you want to reload vmsyslogd? (Y/N)'
+}
+
+# If required iterate through the hosts reloading syslog
+If ($reloadOK -match '[Yy]') {
+    ForEach ($esxHost in $esxHosts) { 
+        #$esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
+        #$esxCli.system.syslog.reload.Invoke()
+    }
 }
 
 # Disconnect from the vSphere server
