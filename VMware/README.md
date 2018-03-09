@@ -1,6 +1,7 @@
 # VMware PowerShell
 
-My attempts at making life with VMware that little bit easier.
+**My attempts at making life with VMware that little bit easier.**
+
 
 ## PowerCLI v10 Compatability
 
@@ -10,31 +11,40 @@ I'm working on updating my scripts and will put a note at the start of each one 
 
 This obviously means I'll no longer be able to confirm if they work in older versions of PowerCLI, so please use v10.
 
+
 ## Prerequisites
 
 These scripts all require PowerCLI to be installed.
 
 PowerCLI version 10 is installed using the following command in PowerShell:
 
-Install-Module -Name VMware.PowerCLI -Scope CurrentUser
+`Install-Module -Name VMware.PowerCLI -Scope CurrentUser`
 
 If you have a previous version installed, uninstall it before installing v10. You also may need -AllowClobber to overwrite existing modules.
 
 E.g.:
 
-Install-Module -Name VMware.PowerCLI -Scope CurrentUser -AllowClobber
+`Install-Module -Name VMware.PowerCLI -Scope CurrentUser -AllowClobber`
+
 
 ## PowerCLI v10 SSL Changes
 
 PowerCLI 10 changes the default behaviour for untrusted certificates from warn to fail, this means you won't be able to connect if using self-signed certificates.
 
-This behaviour can be changed temporarily using:
+This behaviour can be reverted back temporarily using:
 
-Set-PowerCLIConfiguration -InvalidCertificateAction Warn -Scope Session
+`Set-PowerCLIConfiguration -InvalidCertificateAction Warn -Scope Session -Confirm:$false`
 
 Or permanently using:
 
-Set-PowerCLIConfiguration -InvalidCertificateAction Warn
+`Set-PowerCLIConfiguration -InvalidCertificateAction Warn -Confirm:$false`
+
+Personally I prefer setting it to prompt, then I can make my choice on a per-server basis.
+
+E.g.:
+
+`Set-PowerCLIConfiguration -InvalidCertificateAction Prompt -Confirm:$false`
+
 
 ## Pre v10 PowerCLI Path Change
 
@@ -42,16 +52,14 @@ At some point between me beginning to write scripts, and v6.5, VMware changed th
 
 This can either be fixed by changing module path from:
 
-'C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+`'C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'`
 
-to:
+To:
 
-'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
-
+`'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'`
 
 Or by creating a symbolic link from the old location to the new one:
 
-mklink /D "C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI" "C:\Program Files (x86)\VMware\Infrastructure\PowerCLI"
-
+`mklink /D "C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI" "C:\Program Files (x86)\VMware\Infrastructure\PowerCLI"`
 
 This is, of course, all now utterly irrelevant with PowerCLI v10 which does away with this initialization script entirely and uses the more conventional Import-Module approach.

@@ -1,14 +1,19 @@
 ﻿# Get list of dump files from ESXi hosts, and remove them if required
+#
+# Updated for PowerCLI 10
+#
 
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
 
-# Initialise PowerCLI Environment
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
-# Connect vCenter
-$viServer = Read-Host -Prompt 'Enter the FQDN of your VI server'
-Connect-VIServer -Server $viServer
+# Connect to the vSphere server
+$viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
+Connect-VIServer -Server $viServer -Credential $viCredential
 
-# Get all dumpfile details and display them
+# Initialize an object to collect the details into
 $dumpfiles = @()
 
 # Iterate through the hosts getting the active and configured dumpfiles from them
@@ -16,13 +21,12 @@ ForEach ($esxHost in (Get-VMHost -Server $viServer)) {
     $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
     $activeDumpfile = $esxCli.system.coredump.file.get.Invoke().Active
     $configuredDumpfile = $esxCli.system.coredump.file.get.Invoke().Configured
-    $dumpfileDetails = @($esxHost.Name,$activeDumpfile,$configuredDumpfile)
     $objProperties = @{'VMHost'=$esxHost.Name;'Active'=$activeDumpfile;'Configured'=$configuredDumpfile}
     $dumpfiles += New-Object –TypeName PSObject –Prop $objProperties
 }
 
 # Lets see a list of those dumpfiles
-$dumpfiles | Select VMHost,Active,Configured | FT -AutoSize
+$dumpfiles | Select-Object VMHost,Active,Configured | Format-Table -AutoSize
 
 # Do you want to remove the dump files?
 $remove = ''
@@ -48,5 +52,5 @@ Else {
     Write-Host 'No action taken.' -ForegroundColor Green
 }
 
-# Disconnect vCenter
+# Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false

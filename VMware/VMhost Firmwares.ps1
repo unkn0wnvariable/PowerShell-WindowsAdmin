@@ -1,17 +1,31 @@
-﻿
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+﻿# Script to get a list of NIC driver and firmware versions and output them to a CSV file
+#
+# I'm using a rubbish way of generating a CSV file here, please don't copy it
+#
+# Updated for PowerCLI 10
+#
 
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
+
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
+
+# Connect to the vSphere server
+$viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
+Connect-VIServer -Server $viServer -Credential $viCredential
+
+# Set location of the output file
 $outputfile = 'C:\Temp\VMware Firmware.csv'
+
+# Set and write the column headers to the file
 $fileheader = '"vmhost","Driver","FirmwareVersion"'
-
-$viServer = Read-Host -Prompt 'Enter VMware viServer FQDN:'
-
 Write-Output $fileheader | Out-File $outputfile -Encoding utf8 -Force
 
-Connect-VIServer -Server $viServer
-
+# Get all VMhosts from the VIServer
 $vmhosts = Get-VMHost -Server $viServer
 
+# Run through the VMhosts getting their NIC driver/firmware details and outputting them to file
 ForEach ($vmhost in $vmhosts) {
     $esxcli = $null
     $esxcli = Get-ESXCli -VMHost $vmhost.Name -Server $viServer
@@ -20,4 +34,5 @@ ForEach ($vmhost in $vmhosts) {
     Write-Output $output | Out-File $outputfile -Encoding utf8 -Force -Append
 }
 
+# Disconnect from the vSphere server
 Disconnect-VIServer -Confirm:$false -Server $viServer

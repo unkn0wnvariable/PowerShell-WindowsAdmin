@@ -1,17 +1,28 @@
-﻿.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+﻿# Script to get a list of all powered on VM's from the specified vCenter server
+#
+# Updated for PowerCLI 10
+#
 
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
+
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
+
+# Connect to the vSphere server
+$viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
+Connect-VIServer -Server $viServer -Credential $viCredential
+
+# Where to save the list to
 $outputfile = 'C:\Temp\VMware Guests.csv'
 
-$viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
+# Get all Powered On VMs
+$vms = Get-VM -Server $viServer | Where-Object {$_.PowerState -eq 'PoweredOn'} | Select-Object VMHost,Name,Guest,ResourcePool,Notes
 
-Connect-VIServer -Server $viServer
-
-$vms = Get-VM -Server $viServer.Name | Where-Object {$_.PowerState -eq 'PoweredOn'} | Select-Object VMHost,Name,Guest,ResourcePool,Notes
-
-Disconnect-VIServer -Confirm:$false -Server $viServer
-
+# Initialise the output object
 $vmsTable = @()
 
+# Build the output object from the VM list
 ForEach ($vm in $vms) {
     $tableRow = New-Object System.Object
     $tableRow | Add-Member -MemberType NoteProperty -Name 'VMHost' -Value $vm.VMHost.Name
@@ -22,4 +33,8 @@ ForEach ($vm in $vms) {
     $vmsTable += $tableRow
 }
 
+# Output to a CSV file
 $vmsTable | Export-Csv -Path $outputfile -NoTypeInformation
+
+# Disconnect from the vSphere server
+Disconnect-VIServer -Server $viServer -Confirm:$false

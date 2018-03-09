@@ -1,23 +1,17 @@
 ﻿# Script to clean up records of detached LUNs from ESXi hosts
 #
-#
-# NOTE:
-# This is somewhat important on ESXi 5, since if you don't remove these entries the hosts will
-# slowly dissapear up their own rectums trying to find LUNs that shouldn't be attached.
-#
-# It's like no-one at VMware considered that we might need to remove storage at some point.
+# Updated for PowerCLI 10
 #
 
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
 
-# Initialise PowerCLI Environment
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
-
-#Get Admin Credentials
-$adminCreds = Get-Credential -Message 'Enter account details with admin rights to VMware'
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer -Credential $adminCreds
+Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Iterate through the hosts getting list of detached LUNs and removing them
 ForEach ($esxHost in (Get-VMHost -Server $viServer)) { 
@@ -28,5 +22,5 @@ ForEach ($esxHost in (Get-VMHost -Server $viServer)) {
     }
 }
 
-# Disconnect vCenter
+# Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false

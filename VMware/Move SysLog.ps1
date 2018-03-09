@@ -1,15 +1,17 @@
 ﻿# Get list of dump files from ESXi hosts, and remove them if required
+#
+# Updated for PowerCLI 10
+#
 
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
 
-# Initialise PowerCLI Environment
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
-
-#Get Admin Credentials
-$adminCreds = Get-Credential -Message 'Enter account details with admin rights to VMware'
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer -Credential $adminCreds
+Connect-VIServer -Server $viServer -Credential $viCredential
 
 # New Log Datastore
 $logDatastore = 'MK-Local-HostLogs-01'
@@ -36,5 +38,5 @@ ForEach ($esxHost in $esxHosts) {
     $esxCli.system.syslog.reload.Invoke()
 }
 
-# Disconnect vCenter
+# Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false

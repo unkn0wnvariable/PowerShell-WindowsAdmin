@@ -1,16 +1,17 @@
-# Script to detach a list of non-datastore iSCSI LUNs from all the hosts in vSphere using their naa numbers
+# Script to detach a list iSCSI LUNs from all the hosts in vSphere using their naa numbers
 #
-# This script is for detaching unused LUNs, i.e. those which show up in the "add storage" list.
+# Updated for PowerCLI 10
+#
 
-# Load the stuff we need
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
 
-#Get Admin Credentials
-$adminCreds = Get-Credential -Message 'Enter account details with admin rights to VMware'
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer -Credential $adminCreds
+Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Get list of datastores to detach from file
 $datastoreNaas = Get-Content -Path "C:\Temp\iSCSIToRemoveNaas.txt"

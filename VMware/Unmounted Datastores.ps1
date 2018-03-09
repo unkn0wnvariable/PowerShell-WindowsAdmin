@@ -1,12 +1,17 @@
 ﻿# Script to get a count and list of datastores which are in unmounted
 #
+# Updated for PowerCLI 10
+#
 
-# Load the stuff we need
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
+
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer
+Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Get Unmounted Datastores
 $unmountedStores = Get-Datastore -Server $viServer | Where-Object {$_.State -eq 'Unavailable'} | Select-Object Name,@{N='CanonicalName';E={$_.ExtensionData.Info.Vmfs.Extent[0].DiskName}},CapacityGB,FreeSpaceGB,State
@@ -23,5 +28,5 @@ $unmountedStores.CanonicalName | Out-File -FilePath 'C:\Temp\UmountedDatastoreNa
 # Output the names to a file for later use
 $unmountedStores.Name | Out-File -FilePath 'C:\Temp\UmountedDatastoreNames.txt'
 
-# Disconnect to the vSphere server
+# Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false

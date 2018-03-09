@@ -1,10 +1,4 @@
-#
-#
-# This script is a work in progress and has not yet been tested - please don't assume it'll work as expected!
-#
-#
-
-# Script to unmount a list of datastores the hosts in vSphere to which they are attached
+# Script to unmount a list of datastores from the hosts in vSphere to which they are attached
 #
 # The way this works it doesn't carry out any of the preunmount checks that umounting through the GUI does,
 # it is also much slower than using the GUI as it can only unmount from one host at a time, whereas the GUI
@@ -15,16 +9,19 @@
 #
 # To ensure datastores are OK to remove, first use the Datastore Unmount Checks.ps1 script.
 #
+#
+# Updated for PowerCLI 10
+#
 
-# Load the stuff we need
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
 
-#Get Admin Credentials
-$adminCreds = Get-Credential -Message 'Enter account details with admin rights to VMware'
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer -Credential $adminCreds
+Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Get list of datastores to detach from file
 $datastoreNames = Get-Content -Path "C:\Temp\DatastoresToRemoveNames.txt"
@@ -50,5 +47,5 @@ ForEach($datastoreName in $datastoreNames) {
     }
 }
 
-# Disconnect to the vSphere server
+# Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false

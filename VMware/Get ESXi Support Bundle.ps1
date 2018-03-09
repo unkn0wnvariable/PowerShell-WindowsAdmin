@@ -1,11 +1,18 @@
 ﻿# Get support bundle from an ESXi 5.5 or newer host using HTTP request method
+#
+# This script uses HTTP requests and doesn't require PowerCLI
+#
 
-$esxCredential = Get-Credential -Credential 'root'
+# Credential for ESXi web interface
+$esxCredential = Get-Credential -Message 'Enter credentials for ESXi web interface'
 
-$servers = @('')
+# List of servers to retrieve support bundles for
+$servers = 'C:\Temp\ServersToGetSupportBundleFrom.txt'
 
-$saveToFolder = 'c:\temp\'
- 
+# Where to save the output to
+$saveToFolder = 'C:\Temp\'
+
+# Run through the servers generating and downloading the support bundles
 ForEach ($server in $servers) {
     $dateTime = Get-Date -UFormat '%Y-%m-%d--%H.%M'
     $source = 'https://' + $server +'/cgi-bin/vm-support.cgi'

@@ -2,26 +2,19 @@
 #
 # Updated for PowerCLI 10
 #
-# If you're using self signed certificates you will need to revert the invalid certificate
-# behaviour to warn instead of stop, as was the case in PowerCLI 6.5
-#
-# This is done using the following command:
-#
-# Set-PowerCLIConfiguration -InvalidCertificateAction Warn -Confirm:$false
-#
 
 # Import the PowerCLI Module
-Import-Module -Name VMware.PowerCLI
+Import-Module -Name VMware.PowerCLI -Force
 
-#Get Admin Credentials
-$adminCreds = Get-Credential -Message 'Enter account details with admin rights to VMware'
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer -Credential $adminCreds
+Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Stop SSH on hosts
-Get-VMHost -Server $viServer | ForEach {Stop-VMHostService -HostService ($_ | Get-VMHostService | Where {$_.Key -eq “TSM-SSH”}) -Confirm:$false}
+Get-VMHost -Server $viServer | ForEach-Object {Stop-VMHostService -HostService ($_ | Get-VMHostService | Where-Object {$_.Key -eq “TSM-SSH”}) -Confirm:$false}
 
-# Disconnect vCenter
+# Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false

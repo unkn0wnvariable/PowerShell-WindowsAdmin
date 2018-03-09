@@ -1,15 +1,17 @@
 ﻿# Preperations for removing datastores from vSphere
 #
+# Updated for PowerCLI 10
+#
 
-# Load the stuff we need
-.'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'
+# Import the PowerCLI Module
+Import-Module -Name VMware.PowerCLI -Force
 
-# Get Credentials
-$vmCreds = Get-Credential -Message 'Enter credentials with the necessary permissions level.'
+#Get Credentials
+$viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
-Connect-VIServer -Server $viServer -Credential $vmCreds
+Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Name of temporary folder to use during deletion
 $deletedFolder = 'Datastores to be Deleted'
@@ -31,5 +33,5 @@ Set-Datastore -Datastore $datastoresList -Server $viServer -StorageIOControlEnab
 
 # Now go to vSphere and unmount through the GUI.
 
-# Disconnect to the vSphere server
+# Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false
