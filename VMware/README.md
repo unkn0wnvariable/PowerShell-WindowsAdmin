@@ -3,15 +3,6 @@
 **My attempts at making life with VMware that little bit easier.**
 
 
-## PowerCLI v10 Compatability
-
-With the release of PowerCLI v10 we are now able to import the module for use in scripts in the normal PowerShell way, this however means that older scripts which used the PowerCLI initialization script won't work.
-
-I'm working on updating my scripts and will put a note at the start of each one which has been updated and checked.
-
-This obviously means I'll no longer be able to confirm if they work in older versions of PowerCLI, so please use v10.
-
-
 ## Prerequisites
 
 These scripts all require PowerCLI to be installed.
@@ -27,7 +18,15 @@ E.g.:
 `Install-Module -Name VMware.PowerCLI -Scope CurrentUser -AllowClobber`
 
 
-## PowerCLI v10 SSL Changes
+## PowerCLI v10 Changes
+
+### Module vs Initialization
+
+With the release of PowerCLI v10 we are now able to import the required modules in the normal PowerShell way, e.g. `Import-Module -Name VMware.PowerCLI`, this means that the old PowerCLI initialization script no longer works and I have updated my scripts accordingly. Going forward I cannot guarantee or verify that these scripts will work in older versions of PowerCLI, even if the environment initialisation script is used first, so please use v10 or higher.
+
+In my scripts I'm actually using `Import-Module -Name VMware.PowerCLI -Force` to avoid load errors where the module has previously been imported.
+
+### Invalid Certificates
 
 PowerCLI 10 changes the default behaviour for untrusted certificates from warn to fail, this means you won't be able to connect if using self-signed certificates.
 
@@ -44,22 +43,3 @@ Personally I prefer setting it to prompt, then I can make my choice on a per-ser
 E.g.:
 
 `Set-PowerCLIConfiguration -InvalidCertificateAction Prompt -Confirm:$false`
-
-
-## Pre v10 PowerCLI Path Change
-
-At some point between me beginning to write scripts, and v6.5, VMware changed the folder name of PowerCLI from vSphere PowerCLI to just PowerCLI. This means some older scripts no longer work as they can't run the ps1 file.
-
-This can either be fixed by changing module path from:
-
-`'C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'`
-
-To:
-
-`'C:\Program Files (x86)\VMware\Infrastructure\PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1'`
-
-Or by creating a symbolic link from the old location to the new one:
-
-`mklink /D "C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI" "C:\Program Files (x86)\VMware\Infrastructure\PowerCLI"`
-
-This is, of course, all now utterly irrelevant with PowerCLI v10 which does away with this initialization script entirely and uses the more conventional Import-Module approach.
