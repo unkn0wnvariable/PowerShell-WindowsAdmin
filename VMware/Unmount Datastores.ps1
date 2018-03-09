@@ -27,7 +27,7 @@ $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer -Credential $adminCreds
 
 # Get list of datastores to detach from file
-$datastoreNames = Get-Content -Path "C:\Temp\DatastoresToRemove.txt"
+$datastoreNames = Get-Content -Path "C:\Temp\DatastoresToRemoveNames.txt"
 
 # Iterate through the datastores to be unmounted...
 ForEach($datastoreName in $datastoreNames) {

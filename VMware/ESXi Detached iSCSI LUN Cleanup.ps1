@@ -23,7 +23,6 @@ Connect-VIServer -Server $viServer -Credential $adminCreds
 ForEach ($esxHost in (Get-VMHost -Server $viServer)) { 
     $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
     $detachedUIDs = ($esxCli.storage.core.device.detached.list.Invoke()).DeviceUID
-
     ForEach($detachedUID in $detachedUIDs) {
         $esxCli.storage.core.device.detached.remove.Invoke(@{device = $detachedUID})
     }

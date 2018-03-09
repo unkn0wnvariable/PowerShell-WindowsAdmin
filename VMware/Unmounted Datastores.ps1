@@ -8,10 +8,10 @@
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer
 
-# Get Datastores in Maintenance Mode
+# Get Unmounted Datastores
 $unmountedStores = Get-Datastore -Server $viServer | Where-Object {$_.State -eq 'Unavailable'} | Select-Object Name,@{N='CanonicalName';E={$_.ExtensionData.Info.Vmfs.Extent[0].DiskName}},CapacityGB,FreeSpaceGB,State
 
-#How many were there?
+# How many were there?
 Write-Host ('There are ' + $unmountedStores.Count + ' unmounted datastores.')
 
 # Display table of results
