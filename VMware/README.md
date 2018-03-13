@@ -2,7 +2,6 @@
 
 **My attempts at making life with VMware that little bit easier.**
 
-
 ## Prerequisites
 
 These scripts all require PowerCLI to be installed.
@@ -16,7 +15,6 @@ If you have a previous version installed, uninstall it before installing v10. Yo
 E.g.:
 
 `Install-Module -Name VMware.PowerCLI -Scope CurrentUser -AllowClobber`
-
 
 ## PowerCLI v10 Changes
 
