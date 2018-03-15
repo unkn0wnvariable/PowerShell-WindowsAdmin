@@ -23,7 +23,7 @@ $vmsToDelete = Get-Content -Path $vmsToDeleteFile
 ForEach ($VM in $vmsToDelete) {
     $vmDetails = Get-VM -Name $VM
     If ($vmDetails.PowerState -eq 'PoweredOff') {
-        Remove-VM -VM $VM -Server $viServer -DeletePermanently -RunAsync -Confirm:$false
+        $vmDetails | Remove-VM -DeletePermanently -RunAsync -Confirm:$false
     }
     Else {
         Write-Host -Object ('VM ' + $VM + ' is not powered off.') -ForegroundColor Red
