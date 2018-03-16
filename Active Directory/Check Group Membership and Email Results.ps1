@@ -77,7 +77,7 @@ Else {
     # First Run
 
     # Add note about missing file to email body
-    $emailBody = '<b>Previous run file ' + $previousRunFile + ' not found.</b><br><br>'
+    $emailBody = '<b>Previous run file not found at: ' + $previousRunFile + '</b><br>Doing first time run.<br><br>'
 
     # Add full user list to body
     $emailBody += 'All members of group ' + $groupName + ':<br><br>'
