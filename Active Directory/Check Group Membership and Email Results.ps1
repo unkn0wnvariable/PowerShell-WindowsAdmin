@@ -1,6 +1,5 @@
 ﻿# Script to monitor the members of an Active Directory group and email the result out.
 #
-#
 # Note: I'm not using SMTP credentials because our SMTP server uses client ACLs, if you're using a server
 # which requires a username and password then the script will need to be modified.
 #
