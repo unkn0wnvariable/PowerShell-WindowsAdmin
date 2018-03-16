@@ -93,16 +93,19 @@ Else {
 # Write out the current members list to file
 $groupMembers | Out-File $previousRunFile
 
+# If sendEmail has been set to true, then email the results out
 If ($sendEmail) {
+    # Set up email parameters
     $emailArguments = @{
-        To = $emailTo
-        From = $emailFrom
-        Subject = $emailSubject
-        Body = $emailBody
-        SMTPServer = $smtpServer
-        Encoding = $emailEncoding
-        BodyAsHtml = $emailAsHtml
+        'To' = $emailTo;
+        'From' = $emailFrom;
+        'Subject' = $emailSubject;
+        'Body' = $emailBody;
+        'SMTPServer' = $smtpServer;
+        'Encoding' = $emailEncoding;
+        'BodyAsHtml' = $emailAsHtml
     }
 
+    # Send the email
     Send-MailMessage @emailArguments
 }
