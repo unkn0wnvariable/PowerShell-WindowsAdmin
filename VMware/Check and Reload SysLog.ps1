@@ -14,7 +14,7 @@ $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer -Credential $viCredential
 
 # New Log Datastore
-$logDatastore = 'MK-Local-HostLogs-01'
+$logDatastore = ''
 
 # What should the log path be?
 $logDatastoreUuid = (Get-Datastore -Name $logDatastore -Server $viServer).ExtensionData.Info.Vmfs.Uuid

@@ -40,13 +40,13 @@ While ($remove -notmatch '^[YyNn]$') {
 If ($remove -match '[Yy]') {
     ForEach ($dumpfile in $dumpfiles) {
         If ($dumpfile.Active -ne '' -or $dumpfile.Configured -ne '') {
-            Write-Host ('Removing dumpfile for ' + $dumpfile.VMHost + '... ') -ForegroundColor Red -NoNewline
+            Write-Host ('Removing dumpfile for ' + $dumpfile.VMHost + '... ') -NoNewline
             $esxCli = Get-EsxCli -VMHost $dumpfile.VMHost -Server $viServer -V2
             $esxCli.system.coredump.file.set.Invoke(@{unconfigure = $true}) | Out-Null
-            Write-Host 'Complete.' -ForegroundColor Red
+            Write-Host 'Complete.' -ForegroundColor Green
         }
     }
-    Write-Host 'All dump files removed.' -ForegroundColor Red
+    Write-Host 'All dump files removed.' -ForegroundColor Green
 }
 Else {
     Write-Host 'No action taken.' -ForegroundColor Green
