@@ -17,10 +17,10 @@ Connect-VIServer -Server $viServer -Credential $viCredential
 $unmountedStores = Get-Datastore -Server $viServer | Where-Object {$_.State -eq 'Unavailable'} | Select-Object Name,@{N='CanonicalName';E={$_.ExtensionData.Info.Vmfs.Extent[0].DiskName}},CapacityGB,FreeSpaceGB,State
 
 # How many were there?
-Write-Host ('There are ' + $unmountedStores.Count + ' unmounted datastores.')
+Write-Host ('There are ' + $unmountedStores.Name.Count + ' unmounted datastores.')
 
 # Display table of results
-$unmountedStores | Format-Table -AutoSize
+$unmountedStores | Export-Csv -Path 'C:\Temp\UmountedDatastores.csv' -NoTypeInformation
 
 # Output the naa numbers to a file for later use
 $unmountedStores.CanonicalName | Out-File -FilePath 'C:\Temp\UmountedDatastoreNaas.txt'
