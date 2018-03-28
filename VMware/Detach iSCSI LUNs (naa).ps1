@@ -14,34 +14,47 @@ $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Get list of datastores to detach from file
-$datastoreNaas = Get-Content -Path "C:\Temp\iSCSIToRemoveNaas.txt"
+$datastoreNaas = Get-Content -Path 'C:\Temp\iSCSIToRemoveNaas.txt'
 
 # Get all hosts attached to vSphere server
-$vmHosts = Get-VMHost
+$vmHosts = Get-VMHost -Server $viServer
 
 # Iterate through the hosts...
 Foreach($vmHost in $vmHosts)
 {
+    # What's going on?
+    Write-Host -Object ('Getting LUNs attached to ' + $vmHost + '... ')
+
+    # Open a connection to the VMware Storage System
+    $vmStorage = Get-View $vmHost.Extensiondata.ConfigManager.StorageSystem
+
+    # Get details of LUNs attached to host
+    $scsiLuns = $vmStorage.StorageDeviceInfo.ScsiLun
+
     # Iterate through the datastores to be removed...
-    Foreach($datastoreNaa in $datastoreNaas)
-    {
+    Foreach($datastoreNaa in $datastoreNaas) {
+
         # What's going on?
-        Write-Host "Detaching LUN $datastoreNaa from $vmHost... " -NoNewline
+        Write-Host -Object ('Detaching LUN ' + $datastoreNaa + ' from ' + $vmHost + '... ') -NoNewline
 
-        # Use the ID from above to get the UUID of the iSCSI LUN
-        $lunUuid = $null
-        $lunUuid = (Get-ScsiLun -VmHost $vmHost -CanonicalName $datastoreNaa -ErrorAction SilentlyContinue).ExtensionData.Uuid
+        If ($datastoreNaa -in $scsiLuns.CanonicalName){
+            # Get the UUID of the iSCSI LUN
+            $lunUuid = ($scsiLuns | Where-Object {$_.CanonicalName -eq $datastoreNaa}).Uuid
 
-        If ($lunUuid -ne $null){
-            # Open a connection to the VMware Storage System and detach the LUN from the host using the UUID
-            $vmStorage = Get-View $vmHost.Extensiondata.ConfigManager.StorageSystem
+            # Detach the LUN from the host using the UUID
             $vmStorage.DetachScsiLun($lunUuid)
 
-            Write-Host "Completed." -ForegroundColor Green
+            # Update on progress
+            Write-Host -Object 'Detached.' -ForegroundColor Green
         }
+
         Else {
-            Write-Host "Not attached." -ForegroundColor Red
+            # Update on progress
+            Write-Host -Object 'Not attached.' -ForegroundColor Red
         }
+
+    # Just a blank line to seperate the next host
+    Write-Host -Object ''
     }
 }
 
