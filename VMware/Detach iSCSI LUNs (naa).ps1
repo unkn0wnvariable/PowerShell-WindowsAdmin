@@ -52,10 +52,9 @@ Foreach($vmHost in $vmHosts)
             # Update on progress
             Write-Host -Object 'Not attached.' -ForegroundColor Red
         }
-
+    }
     # Just a blank line to seperate the next host
     Write-Host -Object ''
-    }
 }
 
 # Disconnect from the vSphere server
