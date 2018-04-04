@@ -17,7 +17,7 @@ Connect-VIServer -Server $viServer -Credential $viCredential
 $datastoreNaas = Get-Content -Path 'C:\Temp\iSCSIToRemoveNaas.txt'
 
 # Get all hosts attached to vSphere server
-$vmHosts = Get-VMHost -Server $viServer
+$vmHosts = Get-VMHost -Server $viServer | Sort-Object -Property Name
 
 # Iterate through the hosts...
 Foreach($vmHost in $vmHosts)
