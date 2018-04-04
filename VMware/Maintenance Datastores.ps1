@@ -20,7 +20,7 @@ $maintenanceStores = Get-Datastore -Server $viServer | Where-Object {$_.State -e
 Write-Host ('There are ' + $maintenanceStores.Count + ' datastores in maintenance mode.')
 
 # Display table of results
-$maintenanceStores | Format-Table -AutoSize
+$maintenanceStores | Export-Csv -Path 'C:\Temp\MaintenanceDatastores.csv' -NoTypeInformation
 
 # Output the naa numbers to a file for later use
 $maintenanceStores.CanonicalName | Out-File -FilePath 'C:\Temp\MaintenanceDatastoreNaas.txt'
