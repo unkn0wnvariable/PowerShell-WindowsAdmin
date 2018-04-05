@@ -4,7 +4,7 @@
 #
 
 # Import the PowerCLI Module
-Import-Module -Name VMware.PowerCLI -Force
+Import-Module -Name VMware.PowerCLI -Force -DisableNameChecking
 
 #Get Credentials
 $viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
