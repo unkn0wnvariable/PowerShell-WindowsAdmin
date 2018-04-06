@@ -18,7 +18,7 @@ $outputfile = 'C:\Temp\VMsByDatastore.csv'
 
 # Which datastores to get VMs for?
 # For example, using a wildcard to get all datastores with similar names
-$datastores = Get-Datastore | Where {$_.Name -like '*Tier*'}
+$datastores = Get-Datastore | Where-Object {$_.Name -like '*Tier*'}
 
 # Initialise the output object
 $vmsTable = @()
