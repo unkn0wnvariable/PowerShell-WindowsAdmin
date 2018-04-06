@@ -13,7 +13,7 @@ $viCredential = Get-Credential -Message 'Enter credentials for VMware connection
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 Connect-VIServer -Server $viServer -Credential $viCredential
 
-# Enable HA on All Clusters
+# Disable HA on All Clusters
 Get-Cluster -Server $viServer | Set-Cluster -HAEnabled:$false -Confirm:$false
 
 # Disconnect from the vSphere server
