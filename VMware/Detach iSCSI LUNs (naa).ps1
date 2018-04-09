@@ -6,7 +6,7 @@
 # Import the PowerCLI Module
 Import-Module -Name VMware.PowerCLI -Force
 
-#Get Credentials
+# Get Credentials
 $viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
 # Connect to the vSphere server
