@@ -14,9 +14,8 @@ $accessRights = 'Editor'
 $credential = Get-Credential
 
 # Connect to Exchange Online
-$sessionOptions = New-PSSessionOption -ProxyAccessType IEConfig
-$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri 'https://outlook.office365.com/powershell-liveid/' -Credential $credential -Authentication Basic -AllowRedirection -SessionOption $sessionOptions
-Import-PSSession $exchangeSession
+$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri 'https://outlook.office365.com/powershell-liveid/' -Credential $credential -Authentication Basic -AllowRedirection
+Import-PSSession -Session $exchangeSession
 
 # Apply the permissions
 ForEach ($grantRightsToUser in $grantRightsToUsers ) {
@@ -32,3 +31,6 @@ ForEach ($grantRightsToUser in $grantRightsToUsers ) {
         Set-Mailbox -Identity $upn –GrantSendOnBehalfTo @{add=$editor}
     }
 }
+
+# End the PowerShell session
+Remove-PSSession -Session $exchangeSession
