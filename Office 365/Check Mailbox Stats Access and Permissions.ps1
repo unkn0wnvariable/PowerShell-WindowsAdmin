@@ -21,9 +21,8 @@ If (Test-Path -Path $outputFile) {Remove-Item -Path $outputFile}
 
 # Establish a session to Exchange Online
 $credential = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
-$sessionOptions = New-PSSessionOption -ProxyAccessType IEConfig
-$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri 'https://outlook.office365.com/powershell-liveid/' -Credential $credential -Authentication Basic -AllowRedirection -SessionOption $sessionOptions
-Import-PSSession $exchangeSession
+$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri 'https://outlook.office365.com/powershell-liveid/' -Credential $credential -Authentication Basic -AllowRedirection
+Import-PSSession -Session $exchangeSession
 
 # Get the list of mailboxes from the file
 $mailboxes = Get-Content -Path $inputFile
@@ -59,4 +58,4 @@ ForEach ($mailbox in $mailboxes) {
 $mailboxesTable | Export-Csv -Path $outputFile -NoTypeInformation
 
 # End the Exchange Online session
-Remove-PSSession $exchangeSession
+Remove-PSSession -Session $exchangeSession
