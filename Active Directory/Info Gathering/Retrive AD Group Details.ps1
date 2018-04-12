@@ -7,34 +7,22 @@ $inputFile = "C:\Temp\GroupsList.txt"
 # File to save the results to
 $outputFile = "C:\Temp\GroupDetails.csv"
 
-# Check input file exists, if not end the script.
-If (!(Test-Path $inputFile)) {
-    Write-Host "Input file does not exist."
-    Break
-}
+# Try to get the list of groups from the file
+$groups = Get-Content -Path $inputFile -ErrorAction:Stop
 
 # Check output folder exists and create it if it doesn't
 $outputPath = (Split-Path -Path $outputFile)
 If (!(Test-Path -Path $outputPath)) {
-	New-Item -Path $outputFolder -ItemType Directory
+	New-Item -Path $outputPath -ItemType Directory
 }
 
-# If output file already exists, delete it.
-If (Test-Path -Path $outputFile) {
+# If path exists, chech if output file exists and delete it.
+ElseIf (Test-Path -Path $outputFile) {
 	Remove-Item -Path $outputFile
 }
 
 # Load AD module
 Import-Module ActiveDirectory
-
-# Establish a session to Exchange Online
-$credential = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
-$sessionOptions = New-PSSessionOption -ProxyAccessType IEConfig
-$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri 'https://outlook.office365.com/powershell-liveid/' -Credential $credential -Authentication Basic -AllowRedirection -SessionOption $sessionOptions
-Import-PSSession $exchangeSession
-
-# Get the list of groups from the file
-$groups = Get-Content -Path $inputFile
 
 # Initialise the results table
 $groupsTable = @()
