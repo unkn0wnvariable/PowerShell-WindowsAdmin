@@ -32,4 +32,8 @@ ForEach ($grantRightsToUser in $grantRightsToUsers ) {
     }
 }
 
+<<<<<<< HEAD
+=======
+# End the PowerShell session
+>>>>>>> 4e6a89b02171832dac5199f72cd9b49d33b6ca72
 Remove-PSSession -Session $exchangeSession
