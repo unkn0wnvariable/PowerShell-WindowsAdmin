@@ -41,8 +41,8 @@ While ($reloadOK -notmatch '^[NnYy]$') {
 # If required iterate through the hosts reloading syslog
 If ($reloadOK -match '[Yy]') {
     ForEach ($esxHost in $esxHosts) { 
-        #$esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
-        #$esxCli.system.syslog.reload.Invoke()
+        $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
+        $esxCli.system.syslog.reload.Invoke()
     }
 }
 
