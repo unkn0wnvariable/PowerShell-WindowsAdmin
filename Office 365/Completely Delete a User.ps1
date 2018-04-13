@@ -1,4 +1,4 @@
-# Delete a User and then delete the deleted user
+# Delete a user and then delete the deleted user
 
 Import-Module MSOnline
 Connect-MsolService
