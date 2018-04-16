@@ -22,5 +22,8 @@ $params = @{
 # Enable Auditing
 Get-Mailbox -ResultSize Unlimited | Where-Object {$_.RecipientTypeDetails -match '(User|Shared|Room|Discovery)Mailbox' -and $_.AuditEnabled -eq $false} | Set-Mailbox @params
 
+# Check Auditing
+Get-Mailbox -ResultSize Unlimited | Select-Object UserPrincipalName,RecipientTypeDetails,AuditEnabled,AuditLogAgeLimit | Format-Table -AutoSize
+
 # Disconnect from Exchange Online
 Remove-PSSession $exchangeSession
