@@ -3,18 +3,18 @@
 # Updated for PowerCLI 10
 #
 
-# Output file path
-$outputFile = 'C:\Temp\VMGuestDetails.csv'
-
 # Get Credentials
 $viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
-# Get vCenter server name
+# Get vSphere server name
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
 
-# Import the PowerCLI Module and connect to the vSphere server
-Import-Module -Name VMware.PowerCLI -Force -DisableNameChecking
+# Import the PowerCLI Module and Connect
+Import-Module -Name VMware.PowerCLI -Force
 Connect-VIServer -Server $viServer -Credential $viCredential
+
+# Output file path
+$outputFile = 'C:\Temp\VMGuestDetails.csv'
 
 # Get VM guest details of all powered on VMs
 $allVmGuests = Get-VM -Server $viServer | Get-VMGuest

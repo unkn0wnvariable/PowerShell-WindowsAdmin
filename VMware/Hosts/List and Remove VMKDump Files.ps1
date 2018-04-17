@@ -3,14 +3,14 @@
 # Updated for PowerCLI 10
 #
 
-# Import the PowerCLI Module
-Import-Module -Name VMware.PowerCLI -Force
-
-#Get Credentials
+# Get Credentials
 $viCredential = Get-Credential -Message 'Enter credentials for VMware connection'
 
-# Connect to the vSphere server
+# Get vSphere server name
 $viServer = Read-Host -Prompt 'Enter hostname of vSphere server'
+
+# Import the PowerCLI Module and Connect
+Import-Module -Name VMware.PowerCLI -Force
 Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Initialize an object to collect the details into
