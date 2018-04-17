@@ -25,7 +25,7 @@ $datastoreList = Get-Content -Path 'C:\Temp\DatastoresToRemoveNames.txt'
 $okToRemove += @()
 
 # Check the datastores
-ForEach ($datastoreName in $datastoreList) {
+foreach ($datastoreName in $datastoreList) {
     $datastore = Get-Datastore -Name $datastoreName -Server $viServer
 
     # Are there VMs present?
@@ -36,11 +36,11 @@ ForEach ($datastoreName in $datastoreList) {
 
     # The GUI checks to see if the datastore is managed by storage DRS so I'll check as well.
     # Although it's a bit pointless since SDRS can only be enabled on a cluster and we can't unmount if we're in a cluster...
-    If ($inCluster) {
+    if ($inCluster) {
             $clusterName = (Get-View $datastore.ExtensionData.Parent).Name
             $sDRSEnabled = (Get-DatastoreCluster -Name $clusterName).SdrsAutomationLevel -ne 'Disabled'
         }
-        Else {
+        else {
             $sDRSEnabled = $false
         }
 
@@ -50,11 +50,11 @@ ForEach ($datastoreName in $datastoreList) {
     # Are we being used for HA heartbeat?
     $clusterResource = Get-View -ViewType ClusterComputeResource
 
-    If ($clusterResource) {
+    if ($clusterResource) {
         $heartbeatDatastores = ($clusterResource.RetrieveDasAdvancedRuntimeInfo()).HeartbeatDatastoreInfo.Datastore
         $isHeartbeatDatastore = $heartbeatDatastores -contains $datastore.ExtensionData.MoRef
     }
-    Else {
+    else {
         $isHeartbeatDatastore = $false
     }
 
@@ -65,52 +65,52 @@ ForEach ($datastoreName in $datastoreList) {
     Write-Host -Object ('Results for datastore: ' + $datastoreName)
 
     Write-Host -Object 'No virtual machine resides on the datastore: ' -NoNewline
-    If (!$vmsPresent) {
+    if (!$vmsPresent) {
         Write-Host -Object 'Passed' -ForegroundColor Green
     }
-    Else {
+    else {
         Write-Host -Object 'Failed' -ForegroundColor Red
         $datastoreRemoveOK = $false
     }
 
     Write-Host -Object 'The datastore is not part of a Datastore Cluster: ' -NoNewline
-    If (!$inCluster) {
+    if (!$inCluster) {
         Write-Host -Object 'Passed' -ForegroundColor Green
     }
-    Else {
+    else {
         Write-Host -Object 'Failed' -ForegroundColor Red
         $datastoreRemoveOK = $false
     }
 
     Write-Host -Object 'The datastore is not managed by storage DRS: ' -NoNewline
-    If (!$sDRSEnabled) {
+    if (!$sDRSEnabled) {
         Write-Host -Object 'Passed' -ForegroundColor Green
     }
-    Else {
+    else {
         Write-Host -Object 'Failed' -ForegroundColor Red
         $datastoreRemoveOK = $false
     }
 
     Write-Host -Object 'Storage I/O control is disabled for this datastore: ' -NoNewline
-    If (!$storageIOCEnabled) {
+    if (!$storageIOCEnabled) {
         Write-Host -Object 'Passed' -ForegroundColor Green
     }
-    Else {
+    else {
         Write-Host -Object 'Failed' -ForegroundColor Red
         $datastoreRemoveOK = $false
     }
 
     Write-Host -Object 'The datastore is not used for vSphere HA heartbeat: ' -NoNewline
-    If (!$isHeartbeatDatastore) {
+    if (!$isHeartbeatDatastore) {
         Write-Host -Object 'Passed' -ForegroundColor Green
     }
-    Else {
+    else {
         Write-Host -Object 'Failed' -ForegroundColor Red
         $datastoreRemoveOK = $false
     }
 
     # If the datastore can be removed, add it to the list
-    If ($datastoreRemoveOK) {
+    if ($datastoreRemoveOK) {
         $okToRemove += $datastoreName
     }
 
@@ -119,11 +119,11 @@ ForEach ($datastoreName in $datastoreList) {
 }
 
 # Results summary
-ForEach ($datastoreName in $datastoreList) {
-    If ($datastoreName -in $okToRemove) {
+foreach ($datastoreName in $datastoreList) {
+    if ($datastoreName -in $okToRemove) {
         Write-Host -Object ('Datastore ' + $datastoreName + ' can be removed.') -ForegroundColor Green
     }
-    Else {
+    else {
         Write-Host -Object ('Datastore ' + $datastoreName + ' cannot be removed, please see check results above.') -ForegroundColor Red
     }
 }

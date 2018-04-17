@@ -12,12 +12,12 @@ $BuiltinAdmins = ([ADSI]"LDAP://CN=Administrators,CN=Builtin,$domainDN").member
 $MemberUsers = @()
 
 # Iterrate through the members identifying if they are a user or group
-ForEach ($Member in $BuiltinAdmins) {
-If ((Get-ADObject -Identity $Member).ObjectClass -eq "group") {
+foreach ($Member in $BuiltinAdmins) {
+if ((Get-ADObject -Identity $Member).ObjectClass -eq "group") {
         # If they are a group get the distinguished names for all members of that group, and subgroups, recursively
         $MemberUsers += (Get-ADGroupMember -Identity $Member -Recursive).distinguishedName
     }
-    Else {
+    else {
         # If they are a user get the distinguished name for that user
         $MemberUsers += (Get-ADUser -Identity $Member).distinguishedName
     }

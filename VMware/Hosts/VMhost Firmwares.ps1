@@ -26,7 +26,7 @@ Write-Output $fileheader | Out-File $outputfile -Encoding utf8 -Force
 $vmhosts = Get-VMHost -Server $viServer
 
 # Run through the VMhosts getting their NIC driver/firmware details and outputting them to file
-ForEach ($vmhost in $vmhosts) {
+foreach ($vmhost in $vmhosts) {
     $esxcli = $null
     $esxcli = Get-ESXCli -VMHost $vmhost.Name -Server $viServer
     $nicInfo = $esxcli.network.nic.get('vmnic0').DriverInfo

@@ -16,7 +16,7 @@ $adObject = Get-ADUser -Identity $adUsername
 $msolCorrectUPN = $adObject.UserPrincipalName
 
 # 
-Try {
+try {
     Get-MsolUser -UserPrincipalName $msolCorrectUPN -ErrorAction Stop
 
     Remove-MSOLuser -UserPrincipalName $msolIncorrectUPN
@@ -27,6 +27,6 @@ Try {
 
     Set-MSOLuser -UserPrincipalName $msolCorrectUPN -ImmutableID $immutableID
 }
-Catch {
+catch {
     Write-Host 'No account found in Azure AD matching the UPN for that AD account.'
 }

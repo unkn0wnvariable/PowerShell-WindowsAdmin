@@ -36,7 +36,7 @@ $groupMembers = (Get-ADGroup -Identity $groupName | Get-ADGroupMember -Recursive
 $sendEmail = $false
 
 # If the file from a previous run exists then compile a list of changes, if not send all members
-If (Test-Path $previousRunFile) {
+if (Test-Path $previousRunFile) {
     # Comparative Run
 
     # Clear variables
@@ -48,32 +48,32 @@ If (Test-Path $previousRunFile) {
     $previousGroupMembers = Get-Content -Path $previousRunFile
 
     # Check for accounts that have been added to the group
-    ForEach ($groupMember in $groupMembers) {
-        If ($groupMember -notin $previousGroupMembers) {
+    foreach ($groupMember in $groupMembers) {
+        if ($groupMember -notin $previousGroupMembers) {
             $addedAccounts += $groupMember + '<br>'
         }
     }
 
     # Check for accounts that have been remove from the group
-    ForEach ($previousGroupMember in $previousGroupMembers) {
-        If ($previousGroupMember -notin $groupMembers) {
+    foreach ($previousGroupMember in $previousGroupMembers) {
+        if ($previousGroupMember -notin $groupMembers) {
             $removedAccounts += $previousGroupMember + '<br>'
         }
     }
 
     # If accounts added, add to body and set sendEmail to true
-    If ($addedAccounts -ne '') {
+    if ($addedAccounts -ne '') {
         $emailBody = 'Members added to group ' + $groupName + ':<br><br>' + $addedAccounts
         $sendEmail = $true
     }
 
     # If accounts removed, add to body and set sendEmail to true
-    If ($removedAccounts -ne '') {
+    if ($removedAccounts -ne '') {
         $emailBody = 'Members removed from group ' + $groupName + ':<br><br>' + $removedAccounts
         $sendEmail = $true
     }
 }
-Else {
+else {
     # First Run
 
     # Add note about missing file to email body
@@ -81,7 +81,7 @@ Else {
 
     # Add full user list to body
     $emailBody += 'All members of group ' + $groupName + ':<br><br>'
-    ForEach ($groupMember in $groupMembers) {
+    foreach ($groupMember in $groupMembers) {
         $emailBody += $groupMember + '<br>'
     }
 
@@ -93,7 +93,7 @@ Else {
 $groupMembers | Out-File $previousRunFile
 
 # If sendEmail has been set to true, then email the results out
-If ($sendEmail) {
+if ($sendEmail) {
     # Set up email parameters
     $emailArguments = @{
         'To' = $emailTo;

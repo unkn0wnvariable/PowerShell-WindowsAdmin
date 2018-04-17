@@ -14,10 +14,10 @@ Import-Module -Name VMware.PowerCLI -Force
 Connect-VIServer -Server $viServer -Credential $viCredential
 
 # Iterate through the hosts getting list of detached LUNs and removing them
-ForEach ($esxHost in (Get-VMHost -Server $viServer)) { 
+foreach ($esxHost in (Get-VMHost -Server $viServer)) { 
     $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
     $detachedUIDs = ($esxCli.storage.core.device.detached.list.Invoke()).DeviceUID
-    ForEach($detachedUID in $detachedUIDs) {
+    foreach ($detachedUID in $detachedUIDs) {
         Write-Host ('Removing ' + $detachedUID + ' from ' + $esxHost.Name + '.')
         $esxCli.storage.core.device.detached.remove.Invoke(@{device = $detachedUID})
     }

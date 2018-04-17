@@ -12,11 +12,11 @@ $PhysicalMemory = @(Get-WmiObject -Class 'win32_PhysicalMemory' -namespace 'root
 Write-Output -InputObject ('Computer has ' + $PhysicalMemoryArray.Count + ' memory array(s).')
 
 # How many slots does each array have?
-Foreach ($MemoryArray In $PhysicalMemoryArray){
+foreach ($MemoryArray in $PhysicalMemoryArray){
      Write-Output -InputObject ('Total DIMM Slots in ' + $MemoryArray.Tag + ': ' + $MemoryArray.MemoryDevices)
 }
 
 # What's installed in the arrays?
-Foreach ($MemoryObject In $PhysicalMemory) {
+foreach ($MemoryObject in $PhysicalMemory) {
      Write-Output -InputObject ('DIMM installed in ' + $MemoryObject.DeviceLocator + ': ' + ($MemoryObject.Capacity / 1GB) + 'GB')
 }

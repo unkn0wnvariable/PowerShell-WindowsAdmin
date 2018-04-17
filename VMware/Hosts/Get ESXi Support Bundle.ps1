@@ -13,7 +13,7 @@ $servers = 'C:\Temp\ServersToGetSupportBundleFrom.txt'
 $saveToFolder = 'C:\Temp\'
 
 # Run through the servers generating and downloading the support bundles
-ForEach ($server in $servers) {
+foreach ($server in $servers) {
     $dateTime = Get-Date -UFormat '%Y-%m-%d--%H.%M'
     $source = 'https://' + $server +'/cgi-bin/vm-support.cgi'
     $destination = $saveToFolder + 'esx-' + $server + '-' + $dateTime + '.tgz'

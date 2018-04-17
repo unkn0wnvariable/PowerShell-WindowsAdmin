@@ -26,11 +26,11 @@ $folderRedirectionUsers = (Get-ChildItem -Path $folderRedirectionPath).Name
 $unmatchedUsers = @()
 $matchedUsers = @()
 
-ForEach ($user in $folderRedirectionUsers) {
-    Try {
+foreach ($user in $folderRedirectionUsers) {
+    try {
         $matchedUsers += (Get-ADUser -Identity $user).SamAccountName
     }
-    Catch {
+    catch {
         $unmatchedUsers += $user
     }
 }
@@ -47,12 +47,12 @@ $allADUsers = Get-ADUser -Filter * -Properties proxyAddresses
 
 $foundUsers = @()
 
-ForEach ($adUser in $allADUsers) {
-    ForEach ($proxyAddress in $adUser.proxyAddresses) {
-        ForEach ($unmatchedUser in $unmatchedUsers) {
-            If ($proxyAddress -like 'smtp:*') {
+foreach ($adUser in $allADUsers) {
+    foreach ($proxyAddress in $adUser.proxyAddresses) {
+        foreach ($unmatchedUser in $unmatchedUsers) {
+            if ($proxyAddress -like 'smtp:*') {
                 $nameFromEmail = $proxyAddress.split(':@')[1]
-                If ($unmatchedUser -eq $nameFromEmail -and $nameFromEmail -notin $foundUsers) {
+                if ($unmatchedUser -eq $nameFromEmail -and $nameFromEmail -notin $foundUsers) {
                     $foundUsers += $unmatchedUser
                 }
             }
@@ -65,8 +65,8 @@ ForEach ($adUser in $allADUsers) {
 
 $missingUsers = @()
 
-ForEach ($unmatchedUser in $unmatchedUsers) {
-    If ($unmatchedUser -notin $foundUsers) { $missingUsers += $unmatchedUser }
+foreach ($unmatchedUser in $unmatchedUsers) {
+    if ($unmatchedUser -notin $foundUsers) { $missingUsers += $unmatchedUser }
 }
 
 # Output list of missing users to file.
@@ -85,8 +85,8 @@ $allExistingUsers = $matchedUsers + $foundUsers
 $groupMembers = (Get-ADGroupMember -Identity $folderRedirectionGroup).SamAccountName
 $notUsingThisServer = @()
 
-ForEach ($existingUser in $allExistingUsers) {
-    If ($existingUser -notin $groupMembers) {
+foreach ($existingUser in $allExistingUsers) {
+    if ($existingUser -notin $groupMembers) {
         $notUsingThisServer += $existingUser
     }    
 }

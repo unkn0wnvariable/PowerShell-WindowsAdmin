@@ -23,7 +23,7 @@ $vmList = Get-VM -Server $viServer | Where-Object {$_.PowerState -eq 'PoweredOff
 $outputTable = @()
 
 # Run through the VM's getting the information we need
-ForEach ($vm in $vmList) {
+foreach ($vm in $vmList) {
     $datastoreName = (Get-View $vm.DatastoreIdList).Name
     $vmProvisionedSpace = [math]::Round($vm.ProvisionedSpaceGB,2)
     $vmFolder = $vm.Folder

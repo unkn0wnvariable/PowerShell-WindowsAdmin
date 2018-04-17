@@ -26,13 +26,13 @@ $params = @{
 }
 
 # Enable Auditing
-Get-Mailbox -Identity $newUPN | Set-Mailbox @params -WhatIf
+Get-Mailbox -Identity $newUPN | Set-Mailbox @params
 
 # Disable PowerShell Remoting for non-Admin staff
-If ($isAnAdmin) {
+if ($isAnAdmin) {
 	Set-User -Identity $newUPN -RemotePowerShellEnabled $true
 }
-Else {
+else {
 	Set-User -Identity $newUPN -RemotePowerShellEnabled $false
 }
 

@@ -9,7 +9,7 @@ $Users = Get-ADGroupMember -Identity $SourceGroup -Credential $Credentials
 $StartCount = (Get-ADGroupMember -Identity $DestinationGroup).Count
 $NewMembersCount = $Users.Count
 
-ForEach ($User in $Users) {
+foreach ($User in $Users) {
     Add-ADGroupMember -Identity $DestinationGroup -Members $User.distinguishedname -Credential $Credentials
 }
 

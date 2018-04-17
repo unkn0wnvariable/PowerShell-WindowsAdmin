@@ -10,10 +10,10 @@ Write-Output $tableHeader | Out-File $outputFile -Encoding utf8 -Append
 
 $users = Get-ADUser -Filter {Enabled -eq 'True'} -Properties Name, SamAccountName, UserPrincipalName, EmailAddress, lastLogon
 
-ForEach ($user in $users) {
+foreach ($user in $users) {
     $userLastLogon = [datetime]::FromFileTimeUtc($user.lastLogon)
-    If ($userLastLogon -lt $cutOffDate) {
-        If ($userLastLogon -eq '01/01/1601 00:00:00') {$userLastLogon = 'Never'}
+    if ($userLastLogon -lt $cutOffDate) {
+        if ($userLastLogon -eq '01/01/1601 00:00:00') {$userLastLogon = 'Never'}
         $output = $user.Name + ',' + $user.SamAccountName + ',' + $user.UserPrincipalName + ',' + $user.EmailAddress + ',' + $userLastLogon.ToString()
         Write-Output $output | Out-File $outputFile -Encoding utf8 -Append
     }

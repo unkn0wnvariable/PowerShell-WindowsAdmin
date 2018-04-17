@@ -18,14 +18,14 @@ $exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -Connecti
 Import-PSSession -Session $exchangeSession
 
 # Apply the permissions
-ForEach ($grantRightsToUser in $grantRightsToUsers ) {
-    ForEach ($grantRightsOnMailbox in $grantRightsOnMailboxes) {
+foreach ($grantRightsToUser in $grantRightsToUsers ) {
+    foreach ($grantRightsOnMailbox in $grantRightsOnMailboxes) {
         $calendarIdentity = $grantRightsOnMailbox + ':\Calendar'
         $existingPermissions = Get-MailboxFolderPermission -Identity $calendarIdentity -User $grantRightsToUser -ErrorAction SilentlyContinue
-        If (!($existingPermissions)) {
+        if (!($existingPermissions)) {
             Add-MailboxFolderPermission -Identity $calendarIdentity -User $grantRightsToUser -AccessRights $accessRights
         }
-        Else {
+        else {
             Set-MailboxFolderPermission -Identity $calendarIdentity -User $grantRightsToUser -AccessRights $accessRights
         }
         Set-Mailbox -Identity $upn –GrantSendOnBehalfTo @{add=$editor}

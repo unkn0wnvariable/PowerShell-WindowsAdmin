@@ -22,7 +22,7 @@ Connect-SPOService -Url $spoServiceURL
 $spoBaseURL = 'https://' + $orgName + '-my.sharepoint.com/personal/'
 
 # Add secondary admin to each user in the list
-ForEach ($userUPN in $userList) {
+foreach ($userUPN in $userList) {
     $spoURL = $spoBaseURL + ($userUPN.ToLower() -replace "[@.]", "_")
     Set-SPOUser -Site $spoURL -LoginName $secondaryAdminUPN -IsSiteCollectionAdmin $true -ErrorAction:Continue
 }

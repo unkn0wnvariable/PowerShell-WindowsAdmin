@@ -23,7 +23,7 @@ $vms = Get-VM -Server $viServer | Where-Object {$_.PowerState -eq 'PoweredOn'} |
 $vmsTable = @()
 
 # Build the output object from the VM list
-ForEach ($vm in $vms) {
+foreach ($vm in $vms) {
     $tableRow = New-Object System.Object
     $tableRow | Add-Member -MemberType NoteProperty -Name 'VMHost' -Value $vm.VMHost.Name
     $tableRow | Add-Member -MemberType NoteProperty -Name 'Name' -Value $vm.Name

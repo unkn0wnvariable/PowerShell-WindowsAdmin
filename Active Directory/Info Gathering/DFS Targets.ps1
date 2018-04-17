@@ -11,7 +11,7 @@ $dfsShares = Get-ChildItem -Path $dfsRoot
 $dfsTargets = @()
 
 # Iterate through the DFS shares getting their targets
-ForEach ($dfsShare in $dfsShares) {
+foreach ($dfsShare in $dfsShares) {
     $sharePath = $dfsRoot + '\' + $dfsShare.Name
     $dfsTargets += Get-DfsnFolderTarget -Path $sharePath | Select-Object Path,TargetPath
 }

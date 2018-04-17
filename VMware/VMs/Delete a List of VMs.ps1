@@ -20,12 +20,12 @@ $vmsToDeleteFile = 'C:\Temp\VMsToDelete.txt'
 $vmsToDelete = Get-Content -Path $vmsToDeleteFile
 
 # Check to see if each VM in the list is powered off, if it is then delete it.
-ForEach ($VM in $vmsToDelete) {
+foreach ($VM in $vmsToDelete) {
     $vmDetails = Get-VM -Name $VM
-    If ($vmDetails.PowerState -eq 'PoweredOff') {
+    if ($vmDetails.PowerState -eq 'PoweredOff') {
         $vmDetails | Remove-VM -DeletePermanently -RunAsync -Confirm:$false
     }
-    Else {
+    else {
         Write-Host -Object ('VM ' + $VM + ' is not powered off.') -ForegroundColor Red
     }
 }

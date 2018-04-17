@@ -20,7 +20,7 @@ Write-Output $tableHeader | Out-File $outputFile -Encoding utf8 -Append
 $users = Get-ADUser -Filter '(enabled -eq $true)' -Properties lastLogon,mail
 
 # Iterate through users retriving the last logon time date and time, writing them out to file as we go
-Foreach ($user in $users) {
+foreach ($user in $users) {
     $lastLogonDate = [datetime]::FromFileTime($user.lastLogon).ToString('dd/MM/yyyy')
     $lastLogonTime = [datetime]::FromFileTime($user.lastLogon).ToString('HH:mm:ss')
 

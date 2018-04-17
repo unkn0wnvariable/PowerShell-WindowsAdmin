@@ -23,7 +23,7 @@ $vmsToMoveFile = 'C:\Temp\VMsToMoveStorage.csv'
 $vmsToMove = Import-Csv -Path $vmsToMoveFile
 
 # Move each VM to its target datastore
-ForEach ($VM in $vmsToMove) {
+foreach ($VM in $vmsToMove) {
     Move-VM -VM $VM.Name -Server $viServer -Datastore $VM.TargetDatastore
 }
 

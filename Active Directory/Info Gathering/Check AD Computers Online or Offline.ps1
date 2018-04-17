@@ -4,16 +4,16 @@
 # Add a search base to search within an OU if required
 $searchBase = ''
 
-If (!($searchBase)) {
+if (!($searchBase)) {
     $computers = Get-ADComputer -Filter * -Properties Description,OperatingSystem,CanonicalName,LastLogonDate,whenCreated
 }
-Else {
+else {
     $computers = Get-ADComputer -Filter * -Properties Description,OperatingSystem,CanonicalName,LastLogonDate,whenCreated -SearchBase $searchBase
 }
 
 $outputResults = @()
 
-ForEach ($computer in $computers) {
+foreach ($computer in $computers) {
     Write-Progress -Activity "Testing connection to.." -status $computer.Name -percentComplete ($computers.IndexOf($computer) / $computers.Count * 100)
 
     $outputObj = New-Object -Type PSObject
@@ -21,14 +21,14 @@ ForEach ($computer in $computers) {
 
     $hostAvailable = Test-Connection -ComputerName $computer.DNSHostName -Count 1 -Quiet -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
-    If (!($hostAvailable)) {
+    if (!($hostAvailable)) {
         $hostAvailable = Test-Connection -ComputerName $computer.DNSHostName -Count 2 -Quiet -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
     
-    If ($hostAvailable) {
+    if ($hostAvailable) {
         $outputObj | Add-Member -MemberType NoteProperty -Name 'Status' -Value 'Online'
     }
-    Else {
+    else {
         $outputObj | Add-Member -MemberType NoteProperty -Name 'Status' -Value 'Offline'
     }
 

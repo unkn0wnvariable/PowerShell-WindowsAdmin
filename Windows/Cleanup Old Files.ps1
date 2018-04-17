@@ -21,8 +21,8 @@ $LastWrite = (Get-Date).AddDays(-$Days)
 $Files = Get-Childitem $TargetPath -Include $Wildcard -Recurse | Where-Object {$_.LastWriteTime -le "$LastWrite"}
 
 # Delete the files
-ForEach ($File in $Files) {
-  If ($File -ne $NULL) {
+foreach ($File in $Files) {
+  if ($File -ne $NULL) {
     Remove-Item $File.FullName | Out-Null
   }
 }

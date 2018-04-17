@@ -17,11 +17,11 @@ Do {
     $passwordKnown = Read-Host -Prompt 'Do you know the existing account password? (Y/N)'
 } Until ($passwordKnown -match '[yY|nN]')
 
-If ($passwordKnown -eq 'Y') {
+if ($passwordKnown -eq 'Y') {
     $oldPassword = Read-Host -Prompt 'Enter old password:' -AsSecureString
     Set-ADAccountPassword -Identity $userDN -OldPassword $oldPassword -NewPassword $newPassword
 }
-Else {
+else {
     $adminCred = Get-Credential -Message  'Without the existing password, admin access is required. Please enter admin account credentials.'
     Set-ADAccountPassword -Identity $userDN -NewPassword $newPassword -Reset -Credential $adminCred
 }

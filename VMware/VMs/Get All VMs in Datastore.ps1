@@ -24,9 +24,9 @@ $datastores = Get-Datastore | Where-Object {$_.Name -like '*Tier*'}
 $vmsTable = @()
 
 # Build the output object from the VM list
-ForEach ($datastore in $datastores) {
+foreach ($datastore in $datastores) {
     $vms = Get-VM -Datastore $datastore
-    ForEach ($vm in $vms) {
+    foreach ($vm in $vms) {
         $tableRow = New-Object System.Object
         $tableRow | Add-Member -MemberType NoteProperty -Name 'Name' -Value $vm.Name
         $tableRow | Add-Member -MemberType NoteProperty -Name 'PowerState' -Value $vm.PowerState

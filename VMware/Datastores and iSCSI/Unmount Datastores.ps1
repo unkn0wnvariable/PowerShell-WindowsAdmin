@@ -27,7 +27,7 @@ Connect-VIServer -Server $viServer -Credential $viCredential
 $datastoreNames = Get-Content -Path "C:\Temp\DatastoresToRemoveNames.txt"
 
 # Iterate through the datastores to be unmounted...
-ForEach($datastoreName in $datastoreNames) {
+foreach($datastoreName in $datastoreNames) {
     # Get the Uuid name for the datastore
     $datastore = Get-Datastore -Name $datastoreName
     $datastoreUuid = $datastore.ExtensionData.Info.Vmfs.Uuid
@@ -36,7 +36,7 @@ ForEach($datastoreName in $datastoreNames) {
     $attachedHosts = $datastore.ExtensionData.Host
 
     # Iterate through attached hosts unmounting the datastore
-    ForEach ($attachedHost in $attachedHosts) {
+    foreach ($attachedHost in $attachedHosts) {
         # What's going on?
         Write-Host "Unmounting $datastoreName from $vmHost."
 

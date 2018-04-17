@@ -11,28 +11,28 @@ $gpos = Get-GPO -All
 $unlinkedGPOs = @()
 
 # Get report for each GPO and add those which aren't linked to the results array
-ForEach ($gpo in $gpos) {
+foreach ($gpo in $gpos) {
     Write-Progress -Activity "Checking.." -status $gpo.DisplayName -percentComplete ($gpos.IndexOf($gpo) / $gpos.Count * 100)
     $gpoReport = Get-GPOReport -Name $gpo.DisplayName -ReportType xml
-    If (([xml]$gpoReport).GPO.LinksTo -eq $null) {
+    if (([xml]$gpoReport).GPO.LinksTo -eq $null) {
         $unlinkedGPOs += $gpo
     }
 }
 
 # Output the results array to screen
-If ($unlinkedGPOs.Count -gt 0) {
+if ($unlinkedGPOs.Count -gt 0) {
     Write-Host 'The following unlinked GPOs have been found:'
     $unlinkedGPOs | Format-Table -Property DisplayName,DomainName,Owner,CreationTime -AutoSize
 }
-Else {
+else {
     Write-Host 'No unlinked GPOs were found.'
 }
 
 # Remove the unlinked GPOs if we don't want them
-If ($unlinkedGPOs.Count -gt 0) {
+if ($unlinkedGPOs.Count -gt 0) {
     $removeGPOs = Read-Host -Prompt 'Would you like to remove these GPOs? (Y/N) [N]'
-    If ($removeGPOs -match '[Y|y]') {
-        ForEach ($unlinkedGPO in $unlinkedGPOs) {
+    if ($removeGPOs -match '[Y|y]') {
+        foreach ($unlinkedGPO in $unlinkedGPOs) {
             Write-Host 'Removing GPO:' $unlinkedGPO.DisplayName
             Remove-GPO -Name $unlinkedGPO.DisplayName -Confirm $false
         }

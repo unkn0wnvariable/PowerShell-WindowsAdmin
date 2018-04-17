@@ -14,9 +14,9 @@ $AllUsers = Get-Mailbox -ResultSize Unlimited | Select-Object DisplayName,UserPr
 $UserInboxRules = @()
 $UserDelegates = @()
 
-ForEach ($User in $AllUsers) {
+foreach ($User in $AllUsers) {
     Write-Progress -Activity "Checking inbox rules for..." -status $User.UserPrincipalName -percentComplete ($AllUsers.IndexOf($User) / $AllUsers.Count * 100)
-    $UserInboxRules += Get-InboxRule -Mailbox $User.UserPrincipalName | Select MailboxOwnerId,Name,Description,Enabled,Priority,ForwardTo,ForwardAsAttachmentTo,RedirectTo,DeleteMessage | Where-Object {($_.ForwardTo -ne $null) -or ($_.ForwardAsAttachmentTo -ne $null) -or ($_.RedirectsTo -ne $null)}
+    $UserInboxRules += Get-InboxRule -Mailbox $User.UserPrincipalName | Select-Object MailboxOwnerId,Name,Description,Enabled,Priority,ForwardTo,ForwardAsAttachmentTo,RedirectTo,DeleteMessage | Where-Object {($_.ForwardTo -ne $null) -or ($_.ForwardAsAttachmentTo -ne $null) -or ($_.RedirectsTo -ne $null)}
     $UserDelegates += Get-MailboxPermission -Identity $User.UserPrincipalName | Where-Object {($_.IsInherited -ne "True") -and ($_.User -notlike "*SELF*")}
 }
 

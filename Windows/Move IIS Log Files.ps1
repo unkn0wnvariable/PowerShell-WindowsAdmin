@@ -18,7 +18,7 @@ Import-Module WebAdministration
 $sites = Get-ChildItem -Path iis:\sites\*
 
 # Update the log file location for each site
-ForEach($site in $sites) {
+foreach($site in $sites) {
     Set-ItemProperty IIS:\Sites\$($site.Name) -name logFile.directory -value $logFileDirectory
     Set-ItemProperty IIS:\Sites\$($site.Name) -name traceFailedRequestsLogging.directory -value $failedRequestsLoggingDirectory
 }

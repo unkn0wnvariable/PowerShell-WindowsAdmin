@@ -30,9 +30,9 @@ $groups = Get-ADGroup -Filter {Name -like $groupWildcard} | Sort-Object
 
 # Iterate through the groups finding their members and writing them out to the CSV file
 
-ForEach ($group in $groups) {
+foreach ($group in $groups) {
     $groupMembers = Get-ADGroupMember -Identity $group | Sort-Object
-    ForEach ($groupMember in $groupMembers) {
+    foreach ($groupMember in $groupMembers) {
         $output = $groupMember.SamAccountName + ',' + $groupMember.Name + ',' + $group.Name
         Write-Output -InputObject $output | Out-File -FilePath $outputFile -Encoding utf8 -Append
     }

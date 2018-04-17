@@ -8,7 +8,7 @@ $adComputers = Get-ADComputer -Filter * -Properties OperatingSystem
 $operatingSystems = $adComputers.OperatingSystem | Sort-Object -Unique
 
 # Output to screen each operating system and how many AD computers are running it
-ForEach ($operatingSystem in $operatingSystems) {
+foreach ($operatingSystem in $operatingSystems) {
     $computers = ($adComputers | Where-Object {$_.OperatingSystem -eq $operatingSystem}).Name
     Write-Host ([string]$computers.Count + ' running ' + $operatingSystem + '.')
 }

@@ -23,7 +23,7 @@ $allVmGuests = Get-VM -Server $viServer | Get-VMGuest
 $outputTable = @()
 
 # Build the output object from the VM list
-ForEach ($vmGuest in $allVmGuests) {
+foreach ($vmGuest in $allVmGuests) {
     $outputRow = New-Object System.Object
     $outputRow | Add-Member -MemberType NoteProperty -Name 'VMName' -Value $vmGuest.VmName
     $outputRow | Add-Member -MemberType NoteProperty -Name 'HostName' -Value $vmGuest.HostName

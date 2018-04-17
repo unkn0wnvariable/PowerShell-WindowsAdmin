@@ -24,7 +24,7 @@ Write-Host -Object ('New log path should be: /vmfs/volumes/' + $logDatastoreUuid
 $esxHosts = Get-VMHost -Server $viServer
 
 # Iterate through the hosts checking log settings
-ForEach ($esxHost in $esxHosts) { 
+foreach ($esxHost in $esxHosts) { 
     $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
     $logSettings = $esxCli.system.syslog.config.get.Invoke()
     Write-Host -Object ('ESXi Host: ' + $esxHost.Name)
@@ -39,8 +39,8 @@ While ($reloadOK -notmatch '^[NnYy]$') {
 }
 
 # If required iterate through the hosts reloading syslog
-If ($reloadOK -match '[Yy]') {
-    ForEach ($esxHost in $esxHosts) { 
+if ($reloadOK -match '[Yy]') {
+    foreach ($esxHost in $esxHosts) { 
         $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
         $esxCli.system.syslog.reload.Invoke()
     }

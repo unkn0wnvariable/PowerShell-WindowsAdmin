@@ -20,7 +20,7 @@ $datastoreNaas = Get-Content -Path 'C:\Temp\iSCSIToRemoveNaas.txt'
 $vmHosts = Get-VMHost -Server $viServer | Sort-Object -Property Name
 
 # Iterate through the hosts...
-Foreach($vmHost in $vmHosts)
+foreach($vmHost in $vmHosts)
 {
     # What's going on?
     Write-Host -Object ('Getting LUNs attached to ' + $vmHost + '... ')
@@ -32,12 +32,12 @@ Foreach($vmHost in $vmHosts)
     $scsiLuns = $vmStorage.StorageDeviceInfo.ScsiLun
 
     # Iterate through the datastores to be removed...
-    Foreach($datastoreNaa in $datastoreNaas) {
+    foreach($datastoreNaa in $datastoreNaas) {
 
         # What's going on?
         Write-Host -Object ('Detaching LUN ' + $datastoreNaa + ' from ' + $vmHost + '... ') -NoNewline
 
-        If ($datastoreNaa -in $scsiLuns.CanonicalName){
+        if ($datastoreNaa -in $scsiLuns.CanonicalName){
             # Get the UUID of the iSCSI LUN
             $lunUuid = ($scsiLuns | Where-Object {$_.CanonicalName -eq $datastoreNaa}).Uuid
 
@@ -48,7 +48,7 @@ Foreach($vmHost in $vmHosts)
             Write-Host -Object 'Detached.' -ForegroundColor Green
         }
 
-        Else {
+        else {
             # Update on progress
             Write-Host -Object 'Not attached.' -ForegroundColor Red
         }

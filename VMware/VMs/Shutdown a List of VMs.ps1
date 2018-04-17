@@ -20,12 +20,12 @@ $vmsToShutdownFile = 'C:\Temp\VMsToShutdown.txt'
 $vmsToShutdown = Get-Content -Path $vmsToShutdownFile
 
 # Check to see if each VM in the list is powered on, if it is then shut it down.
-ForEach ($VM in $vmsToShutdown) {
+foreach ($VM in $vmsToShutdown) {
     $vmDetails = Get-VM -Name $VM -Server $viServer
-    If ($vmDetails.PowerState -eq 'PoweredOn') {
+    if ($vmDetails.PowerState -eq 'PoweredOn') {
         $vmDetails | Shutdown-VMGuest -Confirm:$false
     }
-    Else {
+    else {
         Write-Host -Object ('VM ' + $VM + ' is not powered on.') -ForegroundColor Red
     }
 }

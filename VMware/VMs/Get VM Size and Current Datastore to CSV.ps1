@@ -26,15 +26,15 @@ $vmList = Get-Content -Path $vmListFile | Sort-Object -Unique
 $outputTable = @()
 
 # Run through the VM's getting the information we need
-ForEach ($VM in $vmList) {
+foreach ($VM in $vmList) {
     Write-Host ('Getting Details for ' + $VM)
-    Try {
+    try {
         $vmDetails = Get-VM -Name $VM -Server $viServer -ErrorAction Stop
         $datastoreName = (Get-View $vmDetails.DatastoreIdList).Name
         $vmProvisionedSpace = [math]::Round($vmDetails.ProvisionedSpaceGB,2)
         $outputLine = [pscustomobject]@{'VM Name'=$VM;'Size (GB)'=$vmProvisionedSpace;'Current Datastore'=$datastoreName}
     }
-    Catch {
+    catch {
         $outputLine = [pscustomobject]@{'VM Name'=$VM;'Size (GB)'='0';'Current Datastore'='Deleted'}
     }
     $outputTable += $outputLine

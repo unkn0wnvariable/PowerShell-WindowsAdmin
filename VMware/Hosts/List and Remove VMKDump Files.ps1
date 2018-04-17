@@ -17,7 +17,7 @@ Connect-VIServer -Server $viServer -Credential $viCredential
 $dumpfiles = @()
 
 # Iterate through the hosts getting the active and configured dumpfiles from them
-ForEach ($esxHost in (Get-VMHost -Server $viServer)) { 
+foreach ($esxHost in (Get-VMHost -Server $viServer)) { 
     $esxCli = Get-EsxCli -VMHost $esxHost -Server $viServer -V2
     $activeDumpfile = $esxCli.system.coredump.file.get.Invoke().Active
     $configuredDumpfile = $esxCli.system.coredump.file.get.Invoke().Configured
@@ -37,9 +37,9 @@ While ($remove -notmatch '^[YyNn]$') {
 # If required then remove the dumpfiles
 # Iterate through the entries in the dumpfiles variable
 # If there is an active or configured dumpfile then unconfigure it
-If ($remove -match '[Yy]') {
-    ForEach ($dumpfile in $dumpfiles) {
-        If ($dumpfile.Active -ne '' -or $dumpfile.Configured -ne '') {
+if ($remove -match '[Yy]') {
+    foreach ($dumpfile in $dumpfiles) {
+        if ($dumpfile.Active -ne '' -or $dumpfile.Configured -ne '') {
             Write-Host ('Removing dumpfile for ' + $dumpfile.VMHost + '... ') -NoNewline
             $esxCli = Get-EsxCli -VMHost $dumpfile.VMHost -Server $viServer -V2
             $esxCli.system.coredump.file.set.Invoke(@{unconfigure = $true}) | Out-Null
@@ -48,7 +48,7 @@ If ($remove -match '[Yy]') {
     }
     Write-Host 'All dump files removed.' -ForegroundColor Green
 }
-Else {
+else {
     Write-Host 'No action taken.' -ForegroundColor Green
 }
 

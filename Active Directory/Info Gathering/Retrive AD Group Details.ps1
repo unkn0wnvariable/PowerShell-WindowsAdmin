@@ -12,12 +12,12 @@ $groups = Get-Content -Path $inputFile -ErrorAction:Stop
 
 # Check output folder exists and create it if it doesn't
 $outputPath = (Split-Path -Path $outputFile)
-If (!(Test-Path -Path $outputPath)) {
+if (!(Test-Path -Path $outputPath)) {
 	New-Item -Path $outputPath -ItemType Directory
 }
 
 # If path exists, chech if output file exists and delete it.
-ElseIf (Test-Path -Path $outputFile) {
+elseif (Test-Path -Path $outputFile) {
 	Remove-Item -Path $outputFile
 }
 
@@ -28,7 +28,7 @@ Import-Module ActiveDirectory
 $groupsTable = @()
 
 # Get details for the groups and build an array of objects
-ForEach ($group in $groups) {
+foreach ($group in $groups) {
     Write-Progress -Activity "Checking.." -status $group -percentComplete ($groups.IndexOf($group) / $groups.Count * 100)
 
     # Get group details
