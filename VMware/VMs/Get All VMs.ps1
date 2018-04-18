@@ -16,8 +16,8 @@ Connect-VIServer -Server $viServer -Credential $viCredential
 # Where to save the list to
 $outputfile = 'C:\Temp\VMware Guests.csv'
 
-# Get all Powered On VMs
-$vms = Get-VM -Server $viServer | Where-Object {$_.PowerState -eq 'PoweredOn'} | Select-Object VMHost,Name,Guest,ResourcePool,Notes
+# Get all VMs
+$vms = Get-VM -Server $viServer
 
 # Initialise the output object
 $vmsTable = @()
@@ -25,11 +25,11 @@ $vmsTable = @()
 # Build the output object from the VM list
 foreach ($vm in $vms) {
     $tableRow = New-Object System.Object
-    $tableRow | Add-Member -MemberType NoteProperty -Name 'VMHost' -Value $vm.VMHost.Name
     $tableRow | Add-Member -MemberType NoteProperty -Name 'Name' -Value $vm.Name
+    $tableRow | Add-Member -MemberType NoteProperty -Name 'PowerState' -Value $vm.PowerState
     $tableRow | Add-Member -MemberType NoteProperty -Name 'GuestOS' -Value $vm.Guest.OSFullName
     $tableRow | Add-Member -MemberType NoteProperty -Name 'ResourcePool' -Value $vm.ResourcePool
-    $tableRow | Add-Member -MemberType NoteProperty -Name 'Notes' -Value ($vm.Notes -replace "`n"," ")
+    $tableRow | Add-Member -MemberType NoteProperty -Name 'Notes' -Value ($vm.Notes -replace '\n','; ')
     $vmsTable += $tableRow
 }
 
