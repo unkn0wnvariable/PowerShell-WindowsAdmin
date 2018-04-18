@@ -1,6 +1,6 @@
 ﻿# Output a CSV file containing some details about powered off VMs
 #
-# Created for PowerCLI 10
+# Written for PowerCLI 10
 #
 
 # Get Credentials

@@ -1,9 +1,13 @@
 ﻿# Script to get a list of NIC driver and firmware versions and output them to a CSV file
 #
-# I'm using a rubbish way of generating a CSV file here, please don't copy it
-#
 # Updated for PowerCLI 10
 #
+
+<#
+Please note:
+
+I'm currently using a terrible way of generating a CSV file here, please don't copy it
+#>
 
 # Get Credentials
 $viCredential = Get-Credential -Message 'Enter credentials for VMware connection'

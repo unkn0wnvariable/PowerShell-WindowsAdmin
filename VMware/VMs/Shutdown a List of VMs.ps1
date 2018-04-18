@@ -1,6 +1,6 @@
 ﻿# Bulk shutdown VMs using a list from an input file
 #
-# Created for PowerCLI 10
+# Written for PowerCLI 10
 #
 
 # Get Credentials

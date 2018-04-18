@@ -1,17 +1,20 @@
 # Script to unmount a list of datastores from the hosts in vSphere to which they are attached
 #
-# The way this works it doesn't carry out any of the preunmount checks that umounting through the GUI does,
-# it is also much slower than using the GUI as it can only unmount from one host at a time, whereas the GUI
-# unmounts from all hosts in parallel.
-#
-# To take datastores out of maintenance mode, remove them from clusters and disable storage I/O control
-# use the Datastore Unmount Prep.ps1 script.
-#
-# To ensure datastores are OK to remove, first use the Datastore Unmount Checks.ps1 script.
-#
-#
 # Updated for PowerCLI 10
 #
+
+<#
+Please note:
+
+The way this works it doesn't carry out any of the pre-unmount checks that umounting through the GUI does,
+it is also much slower than using the GUI as it can only unmount from one host at a time, whereas the GUI
+unmounts from all hosts in parallel.
+
+To take datastores out of maintenance mode, remove them from clusters and disable storage I/O control
+use the Datastore Unmount Prep.ps1 script.
+
+To ensure datastores are OK to remove, first use the Datastore Unmount Checks.ps1 script.
+#>
 
 # Get Credentials
 $viCredential = Get-Credential -Message 'Enter credentials for VMware connection'

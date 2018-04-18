@@ -1,12 +1,14 @@
 ﻿# Script to replicate the checks that vSphere does when unmounting a datastore through the GUI
 #
-# I originally wrote this to integrate into a script to unmount the datastores through PowerCLI, but because PowerCLU will only
-# do them one host at a time it is significantly quicker to unmount using the GUI, which unmounts from all hosts in parallel.
-#
-# This script therefore serves as little more than a quick way to bulk check a list of datastores.
-#
 # Updated for PowerCLI 10
 #
+
+<#
+I originally wrote this to integrate into a script to unmount the datastores through PowerCLI, but because PowerCLU will only
+do them one host at a time it is significantly quicker to unmount using the GUI, which unmounts from all hosts in parallel.
+
+This script therefore serves as little more than a quick way to bulk check a list of datastores.
+#>
 
 # Get Credentials
 $viCredential = Get-Credential -Message 'Enter credentials for VMware connection'

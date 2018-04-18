@@ -1,6 +1,6 @@
 ﻿# Get the size and current datastore location for a list of VMs
 #
-# Created for PowerCLI 10
+# Written for PowerCLI 10
 #
 
 # Get Credentials
