@@ -20,21 +20,21 @@ $outputfile = 'C:\Temp\VMware Guests.csv'
 $vms = Get-VM -Server $viServer
 
 # Initialise the output object
-$vmsTable = @()
+$outputTable = @()
 
 # Build the output object from the VM list
 foreach ($vm in $vms) {
-    $tableRow = New-Object System.Object
-    $tableRow | Add-Member -MemberType NoteProperty -Name 'Name' -Value $vm.Name
-    $tableRow | Add-Member -MemberType NoteProperty -Name 'PowerState' -Value $vm.PowerState
-    $tableRow | Add-Member -MemberType NoteProperty -Name 'GuestOS' -Value $vm.Guest.OSFullName
-    $tableRow | Add-Member -MemberType NoteProperty -Name 'ResourcePool' -Value $vm.ResourcePool
-    $tableRow | Add-Member -MemberType NoteProperty -Name 'Notes' -Value ($vm.Notes -replace '\n','; ')
-    $vmsTable += $tableRow
+    $outputRow = New-Object System.Object
+    $outputRow | Add-Member -MemberType NoteProperty -Name 'Name' -Value $vm.Name
+    $outputRow | Add-Member -MemberType NoteProperty -Name 'PowerState' -Value $vm.PowerState
+    $outputRow | Add-Member -MemberType NoteProperty -Name 'GuestOS' -Value $vm.Guest.OSFullName
+    $outputRow | Add-Member -MemberType NoteProperty -Name 'ResourcePool' -Value $vm.ResourcePool
+    $outputRow | Add-Member -MemberType NoteProperty -Name 'Notes' -Value ($vm.Notes -replace '\n','; ')
+    $outputTable += $outputRow
 }
 
 # Output to a CSV file
-$vmsTable | Export-Csv -Path $outputfile -NoTypeInformation
+$outputTable | Export-Csv -Path $outputfile -NoTypeInformation
 
 # Disconnect from the vSphere server
 Disconnect-VIServer -Server $viServer -Confirm:$false
