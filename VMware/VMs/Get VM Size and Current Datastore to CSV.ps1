@@ -32,10 +32,18 @@ foreach ($VM in $vmList) {
         $vmDetails = Get-VM -Name $VM -Server $viServer -ErrorAction Stop
         $datastoreName = (Get-View $vmDetails.DatastoreIdList).Name
         $vmProvisionedSpace = [math]::Round($vmDetails.ProvisionedSpaceGB,2)
-        $outputRow = [pscustomobject]@{'VM Name'=$VM;'Size (GB)'=$vmProvisionedSpace;'Current Datastore'=$datastoreName}
+        $outputRow = [pscustomobject]@{
+            'VM Name'=$VM;
+            'Size (GB)'=$vmProvisionedSpace;
+            'Current Datastore'=$datastoreName
+        }
     }
     catch {
-        $outputRow = [pscustomobject]@{'VM Name'=$VM;'Size (GB)'='0';'Current Datastore'='Deleted'}
+        $outputRow = [pscustomobject]@{
+            'VM Name'=$VM;
+            'Size (GB)'='0';
+            'Current Datastore'='Deleted'
+        }
     }
     $outputTable += $outputRow
 }

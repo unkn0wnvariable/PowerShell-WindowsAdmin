@@ -24,12 +24,13 @@ $outputTable = @()
 
 # Build the output object from the VM list
 foreach ($vm in $vms) {
-    $outputRow = New-Object System.Object
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'Name' -Value $vm.Name
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'PowerState' -Value $vm.PowerState
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'GuestOS' -Value $vm.Guest.OSFullName
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'ResourcePool' -Value $vm.ResourcePool
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'Notes' -Value ($vm.Notes -replace '\n','; ')
+    $outputRow = [pscustomobject]@{
+        'Name' = $vm.Name;
+        'PowerState' = $vm.PowerState;
+        'GuestOS' = $vm.Guest.OSFullName;
+        'ResourcePool' = $vm.ResourcePool;
+        'Notes' = ($vm.Notes -replace '\n','; ')
+    }
     $outputTable += $outputRow
 }
 

@@ -29,7 +29,14 @@ foreach ($vm in $vmList) {
     $vmFolder = $vm.Folder
     $vmNotes = $vm.Notes
     $vmResourcePool = $vm.ResourcePool
-    $outputRow = [pscustomobject]@{'VM Name'=$vm.Name;'Size (GB)'=$vmProvisionedSpace;'Folder'=$vmFolder;'Datastore'=$datastoreName;'Resource Pool'=$vmResourcePool;'Notes'=$vmNotes}
+    $outputRow = [pscustomobject]@{
+        'VM Name'=$vm.Name;
+        'Size (GB)'=$vmProvisionedSpace;
+        'Folder'=$vmFolder;
+        'Datastore'=$datastoreName;
+        'Resource Pool'=$vmResourcePool;
+        'Notes'=$vmNotes
+    }
     $outputTable += $outputRow
 }
 
