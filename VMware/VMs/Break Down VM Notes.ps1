@@ -64,7 +64,7 @@ foreach ($vm in $vms) {
     
     # Add an object to the output table
     $outputTable += [pscustomobject]@{
-        'Name' = $vm.Name;
+        'VMName' = $vm.Name;
         'PowerState' = $vm.PowerState;
         'GuestOS' = $vm.Guest.OSFullName;
         'Service' = $service;
