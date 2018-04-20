@@ -21,7 +21,14 @@ if (Test-Path -Path $outputFile) {Remove-Item -Path $outputFile}
 
 # Establish a session to Exchange Online
 $credential = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
-$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri 'https://outlook.office365.com/powershell-liveid/' -Credential $credential -Authentication Basic -AllowRedirection
+$connectionParams = @{
+    'ConfigurationName' = 'Microsoft.Exchange';
+    'ConnectionUri' = 'https://outlook.office365.com/powershell-liveid/';
+    'Credential' = $credential;
+    'Authentication' = 'Basic';
+    'AllowRedirection' = $true
+} 
+$exchangeSession = New-PSSession @connectionParams
 Import-PSSession -Session $exchangeSession
 
 # Get the list of mailboxes from the file

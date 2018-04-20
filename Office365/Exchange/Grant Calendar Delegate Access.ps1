@@ -13,8 +13,16 @@ $accessRights = 'Editor'
 # Get Office 365 Credentials
 $credential = Get-Credential
 
-# Connect to Exchange Online
-$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri 'https://outlook.office365.com/powershell-liveid/' -Credential $credential -Authentication Basic -AllowRedirection
+# Establish a session to Exchange Online
+$credential = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
+$connectionParams = @{
+    'ConfigurationName' = 'Microsoft.Exchange';
+    'ConnectionUri' = 'https://outlook.office365.com/powershell-liveid/';
+    'Credential' = $credential;
+    'Authentication' = 'Basic';
+    'AllowRedirection' = $true
+} 
+$exchangeSession = New-PSSession @connectionParams
 Import-PSSession -Session $exchangeSession
 
 # Apply the permissions
