@@ -3,27 +3,27 @@
 # This builds on top of a script from https://github.com/OfficeDev/O365-InvestigationTooling
 #
 
-$AdminCreds = Get-Credential
+$credentials = Get-Credential
 
-$EOLSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $AdminCreds -Authentication Basic -AllowRedirection
-Import-PSSession -Session $EOLSession
+$exchangeSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $credentials -Authentication Basic -AllowRedirection
+Import-PSSession -Session $exchangeSession
 
-$AllUsers = @()
-$AllUsers = Get-Mailbox -ResultSize Unlimited | Select-Object DisplayName,UserPrincipalName,ForwardingAddress,ForwardingSMTPAddress,DeliverToMailboxandForward
+$allUsers = @()
+$allUsers = Get-Mailbox -ResultSize Unlimited | Select-Object DisplayName,UserPrincipalName,ForwardingAddress,ForwardingSMTPAddress,DeliverToMailboxandForward
 
-$UserInboxRules = @()
-$UserDelegates = @()
+$userInboxRules = @()
+$userDelegates = @()
 
-foreach ($User in $AllUsers) {
-    Write-Progress -Activity "Checking inbox rules for..." -status $User.UserPrincipalName -percentComplete ($AllUsers.IndexOf($User) / $AllUsers.Count * 100)
-    $UserInboxRules += Get-InboxRule -Mailbox $User.UserPrincipalName | Select-Object MailboxOwnerId,Name,Description,Enabled,Priority,ForwardTo,ForwardAsAttachmentTo,RedirectTo,DeleteMessage | Where-Object {($_.ForwardTo -ne $null) -or ($_.ForwardAsAttachmentTo -ne $null) -or ($_.RedirectsTo -ne $null)}
-    $UserDelegates += Get-MailboxPermission -Identity $User.UserPrincipalName | Where-Object {($_.IsInherited -ne "True") -and ($_.User -notlike "*SELF*")}
+foreach ($user in $allUsers) {
+    Write-Progress -Activity "Checking inbox rules for..." -status $user.UserPrincipalName -percentComplete ($allUsers.IndexOf($user) / $allUsers.Count * 100)
+    $userInboxRules += Get-InboxRule -Mailbox $user.UserPrincipalName | Select-Object MailboxOwnerId,Name,Description,Enabled,Priority,ForwardTo,ForwardAsAttachmentTo,RedirectTo,DeleteMessage | Where-Object {($_.ForwardTo -ne $null) -or ($_.ForwardAsAttachmentTo -ne $null) -or ($_.RedirectsTo -ne $null)}
+    $userDelegates += Get-MailboxPermission -Identity $user.UserPrincipalName | Where-Object {($_.IsInherited -ne "True") -and ($_.User -notlike "*SELF*")}
 }
 
-$SMTPForwarding = $AllUsers | Select-Object DisplayName,ForwardingAddress,ForwardingSMTPAddress,DeliverToMailboxandForward | Where-Object {$_.ForwardingSMTPAddress -ne $null}
+$smtpForwarding = $allUsers | Select-Object DisplayName,ForwardingAddress,ForwardingSMTPAddress,DeliverToMailboxandForward | Where-Object {$_.ForwardingSMTPAddress -ne $null}
 
-$UserInboxRules | Export-Csv MailForwardingRulesToExternalDomains.csv -NoTypeInformation
-$SMTPForwarding | Export-Csv Mailboxsmtpforwarding.csv -NoTypeInformation
-$UserDelegates | Export-Csv MailboxDelegatePermissions.csv -NoTypeInformation
+$userInboxRules | Export-Csv MailForwardingRulesToExternalDomains.csv -NoTypeInformation
+$smtpForwarding | Export-Csv Mailboxsmtpforwarding.csv -NoTypeInformation
+$userDelegates | Export-Csv MailboxDelegatePermissions.csv -NoTypeInformation
 
-Remove-PSSession -Session $EOLSession
+Remove-PSSession -Session $exchangeSession

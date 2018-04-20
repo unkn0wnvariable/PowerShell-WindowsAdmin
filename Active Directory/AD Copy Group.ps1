@@ -1,21 +1,21 @@
 ﻿
-$Credentials = Get-Credential -Message 'Enter administrator credentials.'
+$credentials = Get-Credential -Message 'Enter administrator credentials.'
 
-$SourceGroup = Read-Host -Prompt 'Enter name of source group.'
-$DestinationGroup = Read-Host -Prompt 'Enter name of destination group.'
+$sourceGroup = Read-Host -Prompt 'Enter name of source group.'
+$destinationGroup = Read-Host -Prompt 'Enter name of destination group.'
 
-$Users = Get-ADGroupMember -Identity $SourceGroup -Credential $Credentials
+$users = Get-ADGroupMember -Identity $sourceGroup -Credential $credentials
 
-$StartCount = (Get-ADGroupMember -Identity $DestinationGroup).Count
-$NewMembersCount = $Users.Count
+$startCount = (Get-ADGroupMember -Identity $destinationGroup).Count
+$newMembersCount = $users.Count
 
-foreach ($User in $Users) {
-    Add-ADGroupMember -Identity $DestinationGroup -Members $User.distinguishedname -Credential $Credentials
+foreach ($user in $users) {
+    Add-ADGroupMember -Identity $destinationGroup -Members $user.distinguishedname -Credential $credentials
 }
 
-$EndCount = (Get-ADGroupMember -Identity $DestinationGroup).Count
+$endCount = (Get-ADGroupMember -Identity $destinationGroup).Count
 
-$NewCount = $EndCount - $StartCount
+$newCount = $endCount - $startCount
 
-"$NewMembersCount users should have been added to group $DestinationGroup"
-"$NewCount users have been added to group $DestinationGroup"
+"$newMembersCount users should have been added to group $destinationGroup"
+"$newCount users have been added to group $destinationGroup"

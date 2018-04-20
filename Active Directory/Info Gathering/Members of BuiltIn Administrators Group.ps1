@@ -6,25 +6,25 @@
 $domainDN = (Get-ADDomain).DistinguishedName
 
 # Get the members of the Administrators group for the current domain
-$BuiltinAdmins = ([ADSI]"LDAP://CN=Administrators,CN=Builtin,$domainDN").member
+$builtinAdmins = ([ADSI]"LDAP://CN=Administrators,CN=Builtin,$domainDN").member
 
 # Create a blank array
-$MemberUsers = @()
+$memberUsers = @()
 
 # Iterrate through the members identifying if they are a user or group
-foreach ($Member in $BuiltinAdmins) {
-if ((Get-ADObject -Identity $Member).ObjectClass -eq "group") {
+foreach ($member in $builtinAdmins) {
+if ((Get-ADObject -Identity $member).ObjectClass -eq "group") {
         # If they are a group get the distinguished names for all members of that group, and subgroups, recursively
-        $MemberUsers += (Get-ADGroupMember -Identity $Member -Recursive).distinguishedName
+        $memberUsers += (Get-ADGroupMember -Identity $member -Recursive).distinguishedName
     }
     else {
         # If they are a user get the distinguished name for that user
-        $MemberUsers += (Get-ADUser -Identity $Member).distinguishedName
+        $memberUsers += (Get-ADUser -Identity $member).distinguishedName
     }
 }
 
 # Output the number of users found in the group and all subgroups
-$MemberUsers.Count
+$memberUsers.Count
 
 # Output a list of those users distinguished names
-$MemberUsers | Sort-Object -Unique
+$memberUsers | Sort-Object -Unique
