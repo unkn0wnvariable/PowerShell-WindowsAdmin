@@ -24,7 +24,7 @@ foreach($site in $sites) {
 }
 
 # Restart IIS gracefully
-IISReset
+Invoke-Expression -Command ('IISReset')
 
 # Remove the old log files
 Remove-Item $oldLogFilesDirectory -recurse
