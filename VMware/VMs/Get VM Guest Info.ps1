@@ -24,14 +24,14 @@ $outputTable = @()
 
 # Build the output object from the VM list
 foreach ($vmGuest in $allVmGuests) {
-    $outputRow = New-Object System.Object
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'VMName' -Value $vmGuest.VmName
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'HostName' -Value $vmGuest.HostName
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'IPAddresses' -Value ($vmGuest.IPAddress -join ';')
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'OSFullName' -Value ($vmGuest.OSFullName -replace "`n"," ")
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'ToolsState' -Value $vmGuest.State
-    $outputRow | Add-Member -MemberType NoteProperty -Name 'ToolsVersion' -Value $vmGuest.ToolsVersion
-    $outputTable += $outputRow
+    $outputTable += [pscustomobject]@{
+        'VMName' = $vmGuest.VmName
+        'HostName' = $vmGuest.HostName
+        'IPAddresses' = ($vmGuest.IPAddress -join '; ')
+        'OSFullName' = ($vmGuest.OSFullName -replace '\n','; ')
+        'ToolsState' = $vmGuest.State
+        'ToolsVersion' = $vmGuest.ToolsVersion
+    }
 }
 
 # Output data to CSV file

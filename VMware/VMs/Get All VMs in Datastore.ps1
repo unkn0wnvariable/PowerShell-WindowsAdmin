@@ -27,12 +27,12 @@ $outputTable = @()
 foreach ($datastore in $datastores) {
     $vms = Get-VM -Datastore $datastore
     foreach ($vm in $vms) {
-        $outputRow = New-Object System.Object
-        $outputRow | Add-Member -MemberType NoteProperty -Name 'Name' -Value $vm.Name
-        $outputRow | Add-Member -MemberType NoteProperty -Name 'PowerState' -Value $vm.PowerState
-        $outputRow | Add-Member -MemberType NoteProperty -Name 'Datastore' -Value $datastore
-        $outputRow | Add-Member -MemberType NoteProperty -Name 'Notes' -Value ($vm.Notes -replace "`n"," ")
-        $outputTable += $outputRow
+        $outputTable += [pscustomobject]@{
+            'Name' = $vm.Name;
+            'PowerState' = $vm.PowerState;
+            'Datastore' = $datastore
+            'Notes' = ($vm.Notes -replace '\n','; ')
+        }
     }
 }
 
