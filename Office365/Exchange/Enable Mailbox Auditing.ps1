@@ -3,15 +3,12 @@
 # This is a rewrite of a script from https://github.com/OfficeDev/O365-InvestigationTooling
 #
 
-# Get Office 365 Credentials
-$credential = Get-Credential
-
 # Establish a session to Exchange Online
-$credential = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
+$credentials = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
 $connectionParams = @{
     'ConfigurationName' = 'Microsoft.Exchange';
     'ConnectionUri' = 'https://outlook.office365.com/powershell-liveid/';
-    'Credential' = $credential;
+    'Credential' = $credentials;
     'Authentication' = 'Basic';
     'AllowRedirection' = $true
 } 

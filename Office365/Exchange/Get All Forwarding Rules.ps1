@@ -3,14 +3,12 @@
 # This builds on top of a script from https://github.com/OfficeDev/O365-InvestigationTooling
 #
 
-$credentials = Get-Credential
-
 # Establish a session to Exchange Online
-$credential = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
+$credentials = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
 $connectionParams = @{
     'ConfigurationName' = 'Microsoft.Exchange';
     'ConnectionUri' = 'https://outlook.office365.com/powershell-liveid/';
-    'Credential' = $credential;
+    'Credential' = $credentials;
     'Authentication' = 'Basic';
     'AllowRedirection' = $true
 } 
@@ -25,7 +23,9 @@ $userDelegates = @()
 
 foreach ($user in $allUsers) {
     Write-Progress -Activity "Checking inbox rules for..." -status $user.UserPrincipalName -percentComplete ($allUsers.IndexOf($user) / $allUsers.Count * 100)
-    $userInboxRules += Get-InboxRule -Mailbox $user.UserPrincipalName | Select-Object MailboxOwnerId,Name,Description,Enabled,Priority,ForwardTo,ForwardAsAttachmentTo,RedirectTo,DeleteMessage | Where-Object {($_.ForwardTo -ne $null) -or ($_.ForwardAsAttachmentTo -ne $null) -or ($_.RedirectsTo -ne $null)}
+    $userInboxRules += Get-InboxRule -Mailbox $user.UserPrincipalName | `
+        Select-Object MailboxOwnerId,Name,Description,Enabled,Priority,ForwardTo,ForwardAsAttachmentTo,RedirectTo,DeleteMessage | `
+        Where-Object {($_.ForwardTo -ne $null) -or ($_.ForwardAsAttachmentTo -ne $null) -or ($_.RedirectsTo -ne $null)}
     $userDelegates += Get-MailboxPermission -Identity $user.UserPrincipalName | Where-Object {($_.IsInherited -ne "True") -and ($_.User -notlike "*SELF*")}
 }
 

@@ -1,4 +1,5 @@
 ﻿# Script to get details for a list of mailboxes and save that out to a CSV file
+#
 
 # File containing the list of mailboxes
 $inputFile = 'C:\Temp\MailboxList.txt'
@@ -6,11 +7,17 @@ $inputFile = 'C:\Temp\MailboxList.txt'
 # File to save the results to
 $outputFile = 'C:\Temp\SharedMailboxes.csv'
 
-# Check input file exists, if not end the script.
-if (!(Test-Path $inputFile)) {
-    Write-Output 'Input file does not exist.'
-    break
-}
+# Establish a session to Exchange Online
+$credentials = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
+$connectionParams = @{
+    'ConfigurationName' = 'Microsoft.Exchange';
+    'ConnectionUri' = 'https://outlook.office365.com/powershell-liveid/';
+    'Credential' = $credentials;
+    'Authentication' = 'Basic';
+    'AllowRedirection' = $true
+} 
+$exchangeSession = New-PSSession @connectionParams
+Import-PSSession -Session $exchangeSession
 
 # Check output folder exists and create it if it doesn't
 $outputPath = (Split-Path -Path $outputFile)
@@ -18,18 +25,6 @@ if (!(Test-Path -Path $outputPath)) {New-Item -Path $outputFolder -ItemType Dire
 
 # If output file already exists, delete it.
 if (Test-Path -Path $outputFile) {Remove-Item -Path $outputFile}
-
-# Establish a session to Exchange Online
-$credential = Get-Credential -Message 'Enter your Exchange Online administrator credentials'
-$connectionParams = @{
-    'ConfigurationName' = 'Microsoft.Exchange';
-    'ConnectionUri' = 'https://outlook.office365.com/powershell-liveid/';
-    'Credential' = $credential;
-    'Authentication' = 'Basic';
-    'AllowRedirection' = $true
-} 
-$exchangeSession = New-PSSession @connectionParams
-Import-PSSession -Session $exchangeSession
 
 # Get the list of mailboxes from the file
 $mailboxes = Get-Content -Path $inputFile
