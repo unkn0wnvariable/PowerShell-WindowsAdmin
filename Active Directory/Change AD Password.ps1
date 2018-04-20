@@ -13,9 +13,9 @@ $newPassword = Read-Host -Prompt 'Enter new password' -AsSecureString
 
 $userDN = (Get-ADUser -Identity $userName).DistinguishedName
 
-Do {
+do {
     $passwordKnown = Read-Host -Prompt 'Do you know the existing account password? (Y/N)'
-} Until ($passwordKnown -match '[yY|nN]')
+} until ($passwordKnown -match '[yY|nN]')
 
 if ($passwordKnown -eq 'Y') {
     $oldPassword = Read-Host -Prompt 'Enter old password:' -AsSecureString
