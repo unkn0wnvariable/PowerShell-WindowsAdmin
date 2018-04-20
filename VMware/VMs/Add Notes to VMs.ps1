@@ -9,8 +9,8 @@ Please note:
 This script uses a CSV file as input and expects that file to have 5 columns, which are
 expected to be vmname, service, product, owner and description.
 
-There is no reason for this other than it just happens to be the information that we store
-in the VM notes - feel free to change it to suit your own needs.
+This just happens to be the information that we store in the VM notes, based around that
+which is included in an ITIL service catalog - feel free to change it to suit your own needs.
 #>
 
 # Get Credentials

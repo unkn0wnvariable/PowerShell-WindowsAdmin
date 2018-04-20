@@ -4,15 +4,16 @@
 #
 
 <#
-The purpose of this script is to break down the notes on our VMs into the sections which we generally include and then output
-them to seperate columns in a CSV file. Obviously that's quite specialist, so it's probably of more use as an example than a
-use-as-is working script.
+The purpose of this script is to break down the notes on our VMs into the sections which we
+generally include (based around the ITIL service catalog) and then output them to seperate columns
+in a CSV file. Obviously that's quite specialist, so it's probably of more use as an example than
+a use-as-is working script.
 
-The script is looking for notes in the format of at least 4 sections, on 4 lines, called Service, Product, Owner and Description,
-each seperated from their value by a colon.
+The script is looking for notes in the format of at least 4 sections, on 4 lines, called
+Service, Product, Owner and Description, each seperated from their value by a colon.
 
-If any one of those fields is missing then it'll output what it can and include the whole of the note (with new lines replaced by
-a semicolon) in the description field.
+If any one of those fields is missing then it'll output what it can and include the whole of the
+note (with new lines replaced by a semicolon) in the description field.
 
 Hopefully that makes sense!
 
