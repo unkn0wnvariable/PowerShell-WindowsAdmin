@@ -1,6 +1,6 @@
 # Office 365
 
-**Scripting things in Office 365**
+**Scripting things in Office 365.**
 
 ## Pre-requisites
 
@@ -13,14 +13,11 @@ Microsoft have instructions on how to install modules or connect to services her
 In addition, the services which use remote sessions will require the script execution policy within
 PowerShell to be changed to RemoteSigned. This is done either globally with:
 
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
-```
+`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned`
 
 Or for the current user with:
 
 `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
-
 
 ## Disclaimer
 

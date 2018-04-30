@@ -41,3 +41,7 @@ Personally I prefer setting it to prompt, then I can make my choice on a per-ser
 E.g.:
 
 `Set-PowerCLIConfiguration -InvalidCertificateAction Prompt -Confirm:$false`
+
+## Disclaimer
+
+All scripts are provided as is without warranty of any kind, use them at your own risk.
