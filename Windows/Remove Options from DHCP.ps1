@@ -1,7 +1,6 @@
-# Sript to remove multiple options from multiple DHCP servers
+# Script to remove multiple options from multiple DHCP servers
 #
 # Requires the DHCP module that is part of Windows RSAT
-#
 #
 
 # Import the DHCP Server module
