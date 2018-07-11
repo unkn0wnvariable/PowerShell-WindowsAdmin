@@ -6,7 +6,7 @@
 #
 
 # Where are the files? E.g.: C:\inetpub\logs\LogFiles\W3SVC1
-$targetPath= ''
+$targetPaths= @('','')
 
 # Enter a wildcard to match the files to. E.g.: *.log
 $wildcard = ''
@@ -18,11 +18,13 @@ $days = ''
 $lastWrite = (Get-Date).AddDays(-$days)
 
 # Find all the files that are to be deleted
-$files = Get-Childitem $targetPath -Include $wildcard -Recurse | Where-Object {$_.LastWriteTime -le "$lastWrite"}
+foreach ($targetPath in $targetPaths) {
+  $files = Get-Childitem $targetPath -Include $wildcard -Recurse | Where-Object {$_.LastWriteTime -le "$lastWrite"}
 
-# Delete the files
-foreach ($file in $files) {
-  if ($file -ne $NULL) {
-    Remove-Item $file.FullName | Out-Null
+  # Delete the files
+  foreach ($file in $files) {
+    if ($file -ne $NULL) {
+      Remove-Item $file.FullName | Out-Null
+    }
   }
 }
