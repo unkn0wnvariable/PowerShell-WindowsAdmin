@@ -1,4 +1,4 @@
-# Rename files using Git Move
+# Removing spaces from file names using Git Move
 #
 
 # Set the path where the files to be renamed are
