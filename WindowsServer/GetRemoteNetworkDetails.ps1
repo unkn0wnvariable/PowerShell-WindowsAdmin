@@ -4,6 +4,9 @@
 # Get list of servers from a file
 $computerNames = Get-Content -Path 'C:\Temp\ComputerNames.txt'
 
+# Get administrative credentials
+$credentials = Get-Credential -Prompt 'Enter your admin credentials'
+
 # Create empty table to collect results
 $networkDetails = @()
 
@@ -15,17 +18,17 @@ foreach ($computerName in $computerNames) {
     # Try the WMI approach
     try {
         # Get the network adapters from the server via WMI
-        $networkAdapters = Get-WmiObject -Class 'Win32_NetworkAdapterConfiguration' -Filter 'IPEnabled = true' -ComputerName $computerName -ErrorAction:Stop
+        $networkAdapters = Get-WmiObject -Class 'Win32_NetworkAdapterConfiguration' -Filter 'IPEnabled = true' -ComputerName $computerName -Credential $credentials -ErrorAction:Stop
 
         # Iterate through the network adapters
         foreach ($networkAdapter in $networkAdapters) {
 
             # If both WINS server settings are present, join them together with a ;. Else just concatenate the vaules.
-            if ($networkAdapter.WINSPrimaryServer -and $networkAdapters.WINSSecondaryServer) {
-                $winsServers = $networkAdapter.WINSPrimaryServer + '; ' + $networkAdapters.WINSSecondaryServer
+            if ($networkAdapter.WINSPrimaryServer -and $networkAdapter.WINSSecondaryServer) {
+                $winsServers = $networkAdapter.WINSPrimaryServer + '; ' + $networkAdapter.WINSSecondaryServer
             }
             else {
-                $winsServers = $networkAdapter.WINSPrimaryServer + $networkAdapters.WINSSecondaryServer
+                $winsServers = $networkAdapter.WINSPrimaryServer + $networkAdapter.WINSSecondaryServer
             }
 
             # Create an object with the results in and add it to networkDetails
