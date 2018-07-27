@@ -5,7 +5,7 @@
 $computerNames = Get-Content -Path 'C:\Temp\ComputerNames.txt'
 
 # Get administrative credentials
-$credentials = Get-Credential
+$credentials = Get-Credential -Message 'Enter your admin credentials'
 
 # Work through the computers from the file
 foreach ($computerName in $computerNames) {
