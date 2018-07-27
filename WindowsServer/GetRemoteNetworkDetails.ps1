@@ -5,7 +5,7 @@
 $computerNames = Get-Content -Path 'C:\Temp\ComputerNames.txt'
 
 # Get administrative credentials
-$credentials = Get-Credential -Prompt 'Enter your admin credentials'
+$credentials = Get-Credential -Message 'Enter your admin credentials'
 
 # Create empty table to collect results
 $networkDetails = @()
