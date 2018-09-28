@@ -21,7 +21,7 @@ foreach ($replicatedFolder in $replicatedFolders) {
     # Convert the value to MB and round up
     $stagingQuotaMB = [math]::Ceiling($filesSum.Sum / 1MB)
     
-    # Create an object with the details in
+    # Add an object with the details in to the results table
     $dfsnDetails += [pscustomobject]@{
         'FolderName' = $replicatedFolder.FolderName;
         'DfsnPath' = $replicatedFolder.DfsnPath;
