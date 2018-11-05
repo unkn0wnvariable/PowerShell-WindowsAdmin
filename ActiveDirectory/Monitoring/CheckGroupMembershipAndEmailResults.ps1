@@ -7,21 +7,21 @@
 # Which group do we want to monitor?
 $groupName = 'Example Group'
 
-# Who do we want to send them emails to?
-$emailTo = 'someone@example.com'
+# Who do we want to send the emails to?
+$emailTo = 'someone@example.domain'
 
 # Who do we want the emails to be from?
 # This can either just be an email address or in the format 'Name <address>' to show a friendly name in email clients.
-$emailFrom = 'Group Monitoring <someone-else@example.com>'
-
-# What is the FQDN of the SMTP server to use?
-$smtpServer = 'smtp.example.com'
+$emailFrom = 'Group Monitoring <noreply@example.domain>'
 
 # What should the email subject be?
 $emailSubject = $groupName + ' Membership Report'
 
 # Set the email encoding
 $emailEncoding = 'utf8'
+
+# What is the FQDN of the SMTP server to use?
+$smtpServer = 'smtp.example.domain'
 
 # Set the email body to be sent as HTML
 $emailAsHtml = $true
