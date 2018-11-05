@@ -1,13 +1,24 @@
-﻿# Script to locate DC(s) currently holding the FSMO roles and move them to a new DC
+﻿# Script to locate DC(s) currently holding the FSMO roles and move them to a new DC.
 #
 # Requires the Active Directory component of RSAT to be installed.
 #
+
+<#
+Note: Remember to update the Windows time configuration after moving FSMO roles, the new DC needs to be manually
+configured and old DC needs reverting to auto. If this isn't done the domain time will start to drift.
+
+On new DC run:
+w32tm /config /manualpeerlist:"ntpserver1.domain ntpserver2.domain" /syncfromflags:manual /reliable:yes /update
+
+On old DC run:
+w32tm /config /syncfromflags:domhier /update
+#>
 
 # Import the ActiveDirectory module
 Import-Module -Name ActiveDirectory
 
 # Where are we moving the roles to?
-$newDC = ''
+$newDC = 'mkpv-grp-adsdc5'
 
 # Get administrative level credentials for Active Directory
 $adCredentials = Get-Credential -Message 'Enter your Active Directory administrator credentials'
