@@ -18,7 +18,7 @@ w32tm /config /syncfromflags:domhier /update
 Import-Module -Name ActiveDirectory
 
 # Where are we moving the roles to?
-$newDC = 'mkpv-grp-adsdc5'
+$newDC = ''
 
 # Get administrative level credentials for Active Directory
 $adCredentials = Get-Credential -Message 'Enter your Active Directory administrator credentials'
