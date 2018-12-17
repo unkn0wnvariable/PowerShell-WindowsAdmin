@@ -13,14 +13,12 @@ Import-Module -Name ActiveDirectory
 # Get administrative level credentials for Active Directory
 $adCredentials = Get-Credential -Message 'Enter your Active Directory administrator credentials'
 
-# Extablish a search wildcard to find the accounts we need to change
-$searchWildcard = '*@' + $oldUPNDomain
-
 # Get all those accounts
-$accountsToChange = Get-ADUser -Filter * | Where-Object {$_.UserPrincipalName -like $searchWildcard}
+$accountsToChange = Get-ADUser -Filter * | Where-Object {$_.UserPrincipalName -match $oldUPNDomain}
 
 # Iterate through the accounts changing the UPN to the new domain
 foreach ($accountToChange in $accountsToChange) {
     $newAccountUPN = $accountToChange.UserPrincipalName.Split('@')[0] + '@' + $newUPNDomain
-    Set-ADUser -Identity $accountToChange -UserPrincipalName $newAccountUPN -Credential $adCredentials -WhatIf
+    Write-Output -InputObject ('Updating UPN for account ' + $accountToChange.UserPrincipalName + ' to ' + $newAccountUPN)
+    Set-ADUser -Identity $accountToChange.DistinguishedName -UserPrincipalName $newAccountUPN -Credential $adCredentials
 }
