@@ -7,16 +7,22 @@ $appsToInstall = @(
     'awscli',
     'azure-cli',
     'caffeine',
-    'chocolateygui',
-    'docker-kitematic',
     'git',
+    'graphviz',
+    'mRemoteNG',
+    'nodejs',
+    'openjdk',
     'openssh',
-    'OpenSSL.Light',
+    'openssl.light',
     'packer',
     'pdk',
     'powershell-core',
+    'puppet',
     'putty',
+    'python3',
     'rufus',
+    'rvtools',
+    'sccmtoolkit',
     'sysinternals',
     'terraform',
     'vmwarevsphereclient',
@@ -27,5 +33,5 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 Invoke-Expression -Command ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 foreach ($appToInstall in $appsToInstall) {
-    Invoke-Expression -Command ('choco install ' + $appToInstall)
+    Invoke-Expression -Command ('choco install ' + $appToInstall + ' -y')
 }
