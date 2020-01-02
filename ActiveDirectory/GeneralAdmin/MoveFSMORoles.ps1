@@ -26,7 +26,7 @@ $adCredentials = Get-Credential -Message 'Enter your Active Directory administra
 # Get all the domain controllers
 $domainControllers = Get-ADDomainController -Filter *
 
-# Find all the FSMO roles, theoretically they should all be on the same server but you never know!
+# Find all the FSMO roles, they're usually all on the same server unless it's a massive domain and someone has been load balancing.
 $schemaMaster = ($domainControllers | Where-Object {$_.OperationMasterRoles -contains 'SchemaMaster'}).Name
 $ridMaster = ($domainControllers | Where-Object {$_.OperationMasterRoles -contains 'RIDMaster'}).Name
 $infrastructureMaster = ($domainControllers | Where-Object {$_.OperationMasterRoles -contains 'InfrastructureMaster'}).Name
