@@ -1,1 +1,13 @@
+# Ignore Mac system files
+._*
+.AppleDB
+.AppleDesktop
+.AppleDouble
 .DS_Store
+.LSOverride
+
+# Ignore Windows system files
+*.tmp
+ehthumbs.db
+ehthumbs_vista.db
+Thumbs.db
