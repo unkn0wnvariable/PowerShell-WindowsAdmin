@@ -4,14 +4,21 @@
 #
 
 <#
-Note: Remember to update the Windows time configuration after moving FSMO roles, the new DC needs to be manually
-configured and old DC needs reverting to auto. If this isn't done the domain time will start to drift.
+Note: If you've configured domain hierarchy time syncing, remember to update the Windows time configuration
+after moving FSMO roles, the new DC needs to be manually configured and old DC needs reverting to auto.
+If this isn't done the domain time will start to drift.
 
-On new DC run:
-w32tm /config /manualpeerlist:"ntpserver1.domain ntpserver2.domain" /syncfromflags:manual /reliable:yes /update
+Set the new PCD to sync from NTP only:
+w32tm /config /manualpeerlist:"time.windows.com,0x8" /syncfromflags:manual /reliable:yes /update
 
-On old DC run:
+Set the previous PDC to sync from domain hierarchy only:
 w32tm /config /syncfromflags:domhier /update
+
+To check the config:
+w32tm /query /configuration
+
+Default Windows Server settings:
+w32tm /config /manualpeerlist:"time.windows.com,0x8" /syncfromflags:all /reliable:no /update
 #>
 
 # Import the ActiveDirectory module
