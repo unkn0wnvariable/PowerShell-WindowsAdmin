@@ -18,7 +18,7 @@ $outputFile = 'UserDetails.csv'
 # Get the list of email addresses from the text file
 $emailsList = Get-Content -Path ($dataFolder + $emailsListFile)
 
-# Get all enabled users from AD, where the password is not set to never expire, password hasn't expired and an email address is present (to send the alert to)
+# Properties to retrieve from Active Directory
 $propertiesList = @(
     'GivenName'
     'Surname'
